@@ -3,6 +3,7 @@ import './stylesheet.css';
 
 import Board from './components/Board.jsx';
 import Radar from './components/Radar.jsx';
+import Setup from './components/Setup.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -17,8 +18,8 @@ class App extends React.Component {
       scores: {
         player1: 0,
         player2: 0,
-      }
-    }
+      },
+    };
     this.handleClickYF = this.handleClickYF.bind(this);
     this.handleClickRadar = this.handleClickRadar.bind(this);
   }
@@ -47,8 +48,8 @@ class App extends React.Component {
             <div className="home-board">
               <Board handleClick={this.handleClickYF} />
             </div>
-            <div className="radar">
-              <Radar handleClick={this.handleClickRadar} />
+            <div className="">
+              <Setup  />
             </div>
           </div>
         </div>
