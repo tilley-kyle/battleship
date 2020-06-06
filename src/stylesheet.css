@@ -3,8 +3,27 @@
  grid-template-rows: 15vmin 80vmin;
 }
 
-.title-container {
+.heading-container {
+  display: grid;
+  grid-template-rows: 60% 40%;
+}
 
+.title {
+  text-align: center;
+  margin: 0;
+  padding: 1%;
+  padding-top: 8px;
+}
+
+.board-labels {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  font-weight: bolder;
+}
+
+.label-title {
+  text-align: center;
+  padding-bottom: 0px;
 }
 
 .board-container {
@@ -36,5 +55,5 @@
 
 .tile {
   display: flex;
-  border: 1px solid black;
+  border: 0.5px solid black;
 }

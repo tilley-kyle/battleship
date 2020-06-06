@@ -22,8 +22,12 @@ class App extends React.Component {
   render() {
     return (
       <div className="total-container">
-        <div className="title-container">
+        <div className="heading-container">
           <h2 className="title">BattleShip: The Game... Onlinified</h2>
+          <div className="board-labels">
+            <div className="label-title">Your Fleet</div>
+            <div className="label-title">Radar</div>
+          </div>
         </div>
         <div className="board-container">
           <div className="home-board">
