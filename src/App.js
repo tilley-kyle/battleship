@@ -8,10 +8,10 @@ class App extends React.Component {
     super(props);
     this.state = {
       turn: 1,
-      board1: [[],[],[],[],[],[],[],[],[],[]],
-      oppBoard1: [[],[],[],[],[],[],[],[],[],[]],
-      board2: [[],[],[],[],[],[],[],[],[],[]],
-      oppBoard2: [[],[],[],[],[],[],[],[],[],[]],
+      board1: [[], [], [], [], [], [], [], [], [], []],
+      radar1: [[], [], [], [], [], [], [], [], [], []],
+      board2: [[], [], [], [], [], [], [], [], [], []],
+      radar2: [[], [], [], [], [], [], [], [], [], []],
       scores: {
         player1: 0,
         player2: 0,
@@ -21,10 +21,17 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <h2 className="title">BattleShip: The Game... Onlinified</h2>
-        <div className="board">
-          <Board />
+      <div className="total-container">
+        <div className="title-container">
+          <h2 className="title">BattleShip: The Game... Onlinified</h2>
+        </div>
+        <div className="board-container">
+          <div className="home-board">
+            <Board />
+          </div>
+          <div className="radar">
+            <Board />
+          </div>
         </div>
       </div>
     )

@@ -1,9 +1,37 @@
-.board {
+.total-container {
+ display: grid;
+ grid-template-rows: 15vmax 65vmax;
+}
+
+.title-container {
+
+}
+
+.board-container {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+.home-board {
   display: grid;
   grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
   grid-template-rows: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
-  min-height: 80vh;
-  min-width: 80vh;
+  min-height: 50vh;
+  min-width: 45vmax;
+  max-height: 85vh;
+  max-width: 45vmax;
+  padding: 10px;
+}
+
+.radar {
+  display: grid;
+  grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
+  grid-template-rows: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
+  min-height: 50vh;
+  min-width: 45vmax;
+  max-height: 85vh;
+  max-width: 45vmax;
+  padding: 10px;
 }
 
 .tile {

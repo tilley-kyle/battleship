@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Tile = ({ key, place }) => {
-  console.log(place)
+const Tile = ({ place }) => {
   let rowCoord;
   let colCoord;
   if (place < 10) {
