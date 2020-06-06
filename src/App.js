@@ -2,6 +2,7 @@ import React from 'react';
 import './stylesheet.css';
 
 import Board from './components/Board.jsx';
+import Radar from './components/Radar.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -17,6 +18,18 @@ class App extends React.Component {
         player2: 0,
       }
     }
+    this.handleClickYF = this.handleClickYF.bind(this);
+    this.handleClickRadar = this.handleClickRadar.bind(this);
+  }
+
+  handleClickYF (e) {
+    e.preventDefault();
+    console.log('fleet')
+  }
+
+  handleClickRadar (e) {
+    e.preventDefault();
+    console.log('radar')
   }
 
   render() {
@@ -31,10 +44,10 @@ class App extends React.Component {
         </div>
         <div className="board-container">
           <div className="home-board">
-            <Board />
+            <Board handleClick={this.handleClickYF} />
           </div>
           <div className="radar">
-            <Board />
+            <Radar handleClick={this.handleClickRadar} />
           </div>
         </div>
       </div>
