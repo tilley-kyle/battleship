@@ -52,6 +52,12 @@
   align-items: center;
 }
 
+.ship-button {
+  width: 250px;
+  height: 25px;
+  margin: 5px;
+}
+
 .radar {
   display: grid;
   grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;

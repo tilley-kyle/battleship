@@ -10,6 +10,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       stage: 'setup',
+      ship: 'carrier',
       turn: 1,
       board1: [[], [], [], [], [], [], [], [], [], []],
       radar1: [[], [], [], [], [], [], [], [], [], []],
@@ -33,7 +34,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { turn, stage } = this.state;
+    const { turn, stage, ship } = this.state;
     if (stage === 'setup') {
       return (
         <div className="total-container">
@@ -48,8 +49,8 @@ class App extends React.Component {
             <div className="home-board">
               <Board handleClick={this.handleClickYF} />
             </div>
-            <div className="">
-              <Setup  />
+            <div>
+              <Setup ship={ship} />
             </div>
           </div>
         </div>
