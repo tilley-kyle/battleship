@@ -23,35 +23,57 @@ class App extends React.Component {
     this.handleClickRadar = this.handleClickRadar.bind(this);
   }
 
-  handleClickYF (coords) {
+  handleClickYF(coords) {
     console.log(coords)
   }
 
-  handleClickRadar (coords) {
+  handleClickRadar(coords) {
     console.log(coords)
   }
 
   render() {
-    const { turn } = this.state;
-    return (
-      <div className="total-container">
-        <div className="heading-container">
-          <h2 className="title">BattleShip: The Game... Onlinified</h2>
-          <div className="board-labels">
-            <div className="label-title">Admiral {turn}'s Fleet</div>
-            <div className="label-title">Radar</div>
+    const { turn, stage } = this.state;
+    if (stage === 'setup') {
+      return (
+        <div className="total-container">
+          <div className="heading-container">
+            <h2 className="title">BattleShip: The Game... Onlinified</h2>
+            <div className="board-labels">
+              <div className="label-title">Admiral {turn}'s Fleet</div>
+              <div className="label-title">Radar</div>
+            </div>
+          </div>
+          <div className="board-container">
+            <div className="home-board">
+              <Board handleClick={this.handleClickYF} />
+            </div>
+            <div className="radar">
+              <Radar handleClick={this.handleClickRadar} />
+            </div>
           </div>
         </div>
-        <div className="board-container">
-          <div className="home-board">
-            <Board handleClick={this.handleClickYF} />
+      )
+    } else {
+      return (
+        <div className="total-container">
+          <div className="heading-container">
+            <h2 className="title">BattleShip: The Game... Onlinified</h2>
+            <div className="board-labels">
+              <div className="label-title">Admiral {turn}'s Fleet</div>
+              <div className="label-title">Radar</div>
+            </div>
           </div>
-          <div className="radar">
-            <Radar handleClick={this.handleClickRadar} />
+          <div className="board-container">
+            <div className="home-board">
+              <Board handleClick={this.handleClickYF} />
+            </div>
+            <div className="radar">
+              <Radar handleClick={this.handleClickRadar} />
+            </div>
           </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
 }
 
