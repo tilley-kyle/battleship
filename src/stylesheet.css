@@ -58,6 +58,10 @@
   margin: 5px;
 }
 
+.description {
+  text-align: center;
+}
+
 .radar {
   display: grid;
   grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
@@ -72,4 +76,30 @@
 .tile {
   display: flex;
   border: 0.5px solid black;
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  border-bottom: 55px solid black;
+  border-right: 20px solid transparent;
+  border-left: 20px solid transparent;
+  margin: 10px;
+  margin-top: 30px
+}
+
+.up {
+  transform: rotate(0deg)
+}
+
+.right {
+  transform: rotate(90deg)
+}
+
+.down {
+  transform: rotate(180deg)
+}
+
+.left {
+  transform: rotate(-90deg)
 }

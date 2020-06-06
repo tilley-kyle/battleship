@@ -11,6 +11,7 @@ class App extends React.Component {
     this.state = {
       stage: 'setup',
       ship: 'carrier',
+      direction: 'up',
       turn: 1,
       board1: [[], [], [], [], [], [], [], [], [], []],
       radar1: [[], [], [], [], [], [], [], [], [], []],
@@ -34,7 +35,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { turn, stage, ship } = this.state;
+    const { turn, stage, ship, direction } = this.state;
     if (stage === 'setup') {
       return (
         <div className="total-container">
@@ -42,7 +43,7 @@ class App extends React.Component {
             <h2 className="title">BattleShip: The Game... Onlinified</h2>
             <div className="board-labels">
               <div className="label-title">Admiral {turn}'s Fleet</div>
-              <div className="label-title">Radar</div>
+              <div className="label-title">Deployment Console</div>
             </div>
           </div>
           <div className="board-container">
@@ -50,7 +51,7 @@ class App extends React.Component {
               <Board handleClick={this.handleClickYF} />
             </div>
             <div>
-              <Setup ship={ship} />
+              <Setup ship={ship} direction={direction} />
             </div>
           </div>
         </div>
