@@ -1,6 +1,8 @@
 .total-container {
  display: grid;
  grid-template-rows: 15vmin 80vmin;
+ min-width: 850px;
+ min-height: 500px;
 }
 
 .heading-container {

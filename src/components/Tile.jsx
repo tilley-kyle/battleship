@@ -12,7 +12,7 @@ const Tile = ({ place, handleClick }) => {
     colCoord = Number.parseInt(string[1]);
   }
   return (
-    <div className="tile" onClick={(e) => handleClick(e)}></div>
+    <div className="tile" coords={place} onClick={(e) => handleClick(place)}></div>
   )
 };
 

@@ -8,6 +8,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      stage: 'setup',
       turn: 1,
       board1: [[], [], [], [], [], [], [], [], [], []],
       radar1: [[], [], [], [], [], [], [], [], [], []],
@@ -22,23 +23,22 @@ class App extends React.Component {
     this.handleClickRadar = this.handleClickRadar.bind(this);
   }
 
-  handleClickYF (e) {
-    e.preventDefault();
-    console.log('fleet')
+  handleClickYF (coords) {
+    console.log(coords)
   }
 
-  handleClickRadar (e) {
-    e.preventDefault();
-    console.log('radar')
+  handleClickRadar (coords) {
+    console.log(coords)
   }
 
   render() {
+    const { turn } = this.state;
     return (
       <div className="total-container">
         <div className="heading-container">
           <h2 className="title">BattleShip: The Game... Onlinified</h2>
           <div className="board-labels">
-            <div className="label-title">Your Fleet</div>
+            <div className="label-title">Admiral {turn}'s Fleet</div>
             <div className="label-title">Radar</div>
           </div>
         </div>
