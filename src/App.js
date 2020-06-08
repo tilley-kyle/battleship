@@ -55,7 +55,9 @@ class App extends React.Component {
     } else {
       this.setState({ radar1: radarPlacer(coords, radar1, false) });
     }
-    if (hitsBy1 === 17) alert ('Player 1 Wins!')
+    if (hitsBy1 === 17) {
+      alert ('Player 1 Wins!');
+    }
   }
 
   shipSelector (e) {
@@ -65,9 +67,9 @@ class App extends React.Component {
     if (player1Setup[e.target.id] === true) {
       shipEraser(board1, e.target.id);
       currSetup[e.target.id] = false;
-      this.setState({player1Setup: currSetup});
+      this.setState({ player1Setup: currSetup });
     }
-    this.setState({ship: e.target.id});
+    this.setState({ ship: e.target.id });
   }
 
   handleClickSetup (coords) {
@@ -90,7 +92,7 @@ class App extends React.Component {
 
   handleDeploy (e) {
     e.preventDefault();
-    this.setState({ stage: 'battle'})
+    this.setState({ stage: 'battle' })
   }
 
 
