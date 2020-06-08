@@ -14,7 +14,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      stage: 'battle',
+      stage: 'ready1',
       ship: '',
       direction: 'down',
       turn: 1,
@@ -74,7 +74,7 @@ class App extends React.Component {
       if (checkPlayerReady(player1Setup)) {
         this.setState({ stage: 'ready1' })
       }
-    }, 1000)
+    }, 500)
   }
 
   handleDeploy (e) {
@@ -97,7 +97,7 @@ class App extends React.Component {
           </div>
           <div className="board-container">
             <div className="home-board">
-              <Board board={board1} handleClick={this.handleClickSetup} />
+              <Board board={board1} stage={stage} handleClick={this.handleClickSetup} />
             </div>
             <div>
               <Setup
@@ -123,10 +123,10 @@ class App extends React.Component {
           </div>
           <div className="board-container">
             <div className="home-board">
-              <Board board={board1} handleClick={this.handleClickYF} />
+              <Board board={board1} stage={stage} handleClick={this.handleClickYF} />
             </div>
             <div className="radar">
-              <Radar handleClick={this.handleClickRadar} />
+              <Radar board={board1} handleClick={this.handleClickRadar} />
             </div>
           </div>
         </div>
