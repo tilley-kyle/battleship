@@ -24,8 +24,10 @@ class App extends React.Component {
       currBoard: [[], [], [], [], [], [], [], [], [], []],
       board1: [[], [], [], [], [], [], [], [], [], []],
       radar1: [[], [], [], [], [], [], [], [], [], []],
+      hitsBy1: 0,
       board2: [[], [], [], [], [], [], [], [], [], []],
       radar2: [[], [], [], [], [], [], [], [], [], []],
+      hitsBy2: 0,
       scores: {
         player1: 0,
         player2: 0,
@@ -44,10 +46,16 @@ class App extends React.Component {
 
   handleClickRadar (coords) {
     const { board1, radar1 } = this.state;
-    const radar = radarHit(coords, board1) ?
-    radarPlacer(coords, radar1, true) :
-    radarPlacer(coords, radar1, false);
-    this.setState({ radar1: radar });
+    let { hitsBy1 } = this.state;
+    if (radarHit(coords, board1)) {
+      this.setState({
+        radar1: radarPlacer(coords, radar1, true),
+        hitsBy1: hitsBy1 += 1
+      });
+    } else {
+      this.setState({ radar1: radarPlacer(coords, radar1, false) });
+    }
+    if (hitsBy1 === 17) alert ('Player 1 Wins!')
   }
 
   shipSelector (e) {
