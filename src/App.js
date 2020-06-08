@@ -44,9 +44,10 @@ class App extends React.Component {
 
   handleClickRadar (coords) {
     const { board1, radar1 } = this.state;
-    if (radarHit(coords, board1)) {
-      this.setState({ radar1: radarPlacer(coords, radar1) });
-    }
+    const radar = radarHit(coords, board1) ?
+    radarPlacer(coords, radar1, true) :
+    radarPlacer(coords, radar1, false);
+    this.setState({ radar1: radar });
   }
 
   shipSelector (e) {
