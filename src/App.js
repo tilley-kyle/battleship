@@ -7,6 +7,7 @@ import Setup from './components/Setup';
 
 import vertCheck from './helperFunctions/vertCheck';
 import shipPlacer from './helperFunctions/shipPlacer';
+import shipEraser from './helperFunctions/shipEraser';
 
 class App extends React.Component {
   constructor(props) {
@@ -44,6 +45,10 @@ class App extends React.Component {
 
   shipSelector(e) {
     e.preventDefault();
+    const { player1Setup, board1, ship } = this.state;
+    if (player1Setup[e.target.id] === true) {
+      shipEraser(board1, ship);
+    }
     this.setState({ship: e.target.id})
   }
 
@@ -55,7 +60,8 @@ class App extends React.Component {
       this.setState({
         board1: shipPlacer(board1, ship, coords),
         player1Setup: currSetup,
-      })
+        ship: '',
+      });
     } else {
       alert ('invalid placement');
     }
