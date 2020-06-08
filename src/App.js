@@ -47,7 +47,7 @@ class App extends React.Component {
     e.preventDefault();
     const { player1Setup, board1, ship } = this.state;
     if (player1Setup[e.target.id] === true) {
-      shipEraser(board1, ship);
+      shipEraser(board1, e.target.id);
     }
     this.setState({ship: e.target.id})
   }
