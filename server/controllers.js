@@ -11,5 +11,5 @@ exports.getScores = (req, res) => {
 };
 
 exports.putScores = (req, res) => {
-  
+  console.log(req.body);
 }

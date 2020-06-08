@@ -49,7 +49,7 @@ class App extends React.Component {
 
   handleClickRadar (coords) {
     const { board1, radar1 } = this.state;
-    let { hitsBy1 } = this.state;
+    let { hitsBy1, scores } = this.state;
     if (radarHit(coords, board1)) {
       this.setState({
         radar1: radarPlacer(coords, radar1, true),
@@ -59,7 +59,10 @@ class App extends React.Component {
       this.setState({ radar1: radarPlacer(coords, radar1, false) });
     }
     if (hitsBy1 === 17) {
+      console.log(scores)
       alert ('Player 1 Wins!');
+      scores.player1 += 1;
+      axios.put('http://127.0.0.1:8153/result', scores);
     }
   }
 

@@ -1,13 +1,15 @@
 const express = require('express');
 const cors = require('cors');
+const bp = require('body-parser');
 
 const { getScores, putScores } = require('./controllers');
 
 const app = express();
 
 const port = 8153;
-app.listen(port, () => console.log(`listening on ${port}`))
+app.listen(port, () => console.log(`listening on ${port}`));
 app.use(cors());
+app.use(bp.json());
 app.use(express.static('build'));
 
 app.get('/start', getScores);
