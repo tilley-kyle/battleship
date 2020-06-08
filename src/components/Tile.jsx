@@ -1,6 +1,8 @@
 import React from 'react';
+import xCoord from '../helperFunctions/xCoord';
+import yCoord from '../helperFunctions/yCoord';
 
-const Tile = ({ place, handleClick }) => {
+const Tile = ({ place, handleClick, board }) => {
   // let rowCoord;
   // let colCoord;
   // if (place < 10) {
@@ -12,7 +14,9 @@ const Tile = ({ place, handleClick }) => {
   //   colCoord = Number.parseInt(string[1]);
   // }
   return (
-    <div className="tile" coords={place} onClick={(e) => handleClick(place)}></div>
+    <div className="tile" coords={place} onClick={(e) => handleClick(place)}>
+      {board[yCoord(place)][xCoord(place)]}
+    </div>
   )
 };
 

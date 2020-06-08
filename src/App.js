@@ -6,6 +6,7 @@ import Radar from './components/Radar';
 import Setup from './components/Setup';
 
 import vertCheck from './helperFunctions/vertCheck';
+import shipPlacer from './helperFunctions/shipPlacer';
 
 class App extends React.Component {
   constructor(props) {
@@ -15,7 +16,8 @@ class App extends React.Component {
       ship: 'carrier',
       direction: 'down',
       turn: 1,
-      board1: [[], [], [], [], [], [], [], [], [], ['c','c','c','c','c','c','c','c','c','c']],
+      currBoard: [[], [], [], [], [], [], [], [], [], []],
+      board1: [[], [], [], [], [], [], [], [], [], []],
       radar1: [[], [], [], [], [], [], [], [], [], []],
       board2: [[], [], [], [], [], [], [], [], [], []],
       radar2: [[], [], [], [], [], [], [], [], [], []],
@@ -45,12 +47,16 @@ class App extends React.Component {
 
   handleClickSetup(coords) {
     const { board1, ship } = this.state;
-    console.log(vertCheck(board1, ship, coords));
+    if (vertCheck(board1, ship, coords)) {
+      this.setState({board1: shipPlacer(board1, ship, coords)})
+    } else {
+      alert ('invalid placement');
+    }
   }
 
 
   render() {
-    const { turn, stage, ship, direction } = this.state;
+    const { turn, stage, ship, direction, board1 } = this.state;
     if (stage === 'setup') {
       return (
         <div className="total-container">
@@ -63,7 +69,7 @@ class App extends React.Component {
           </div>
           <div className="board-container">
             <div className="home-board">
-              <Board stage={stage} handleClick={this.handleClickSetup} />
+              <Board board={board1} handleClick={this.handleClickSetup} />
             </div>
             <div>
               <Setup ship={ship} direction={direction} shipSelector={this.shipSelector} />
@@ -83,7 +89,7 @@ class App extends React.Component {
           </div>
           <div className="board-container">
             <div className="home-board">
-              <Board handleClick={this.handleClickYF} />
+              <Board board={board1} handleClick={this.handleClickYF} />
             </div>
             <div className="radar">
               <Radar handleClick={this.handleClickRadar} />

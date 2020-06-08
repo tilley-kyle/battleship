@@ -76,6 +76,8 @@
 .tile {
   display: flex;
   border: 0.5px solid black;
+  justify-content: center;
+  align-items: center;
 }
 
 .arrow {
