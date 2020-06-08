@@ -1,9 +1,11 @@
 import React from 'react';
 import './stylesheet.css';
 
-import Board from './components/Board.jsx';
-import Radar from './components/Radar.jsx';
-import Setup from './components/Setup.jsx';
+import Board from './components/Board';
+import Radar from './components/Radar';
+import Setup from './components/Setup';
+
+import vertCheck from './helperFunctions/vertCheck';
 
 class App extends React.Component {
   constructor(props) {
@@ -56,7 +58,7 @@ class App extends React.Component {
           </div>
           <div className="board-container">
             <div className="home-board">
-              <Board handleClick={this.handleClickYF} />
+              <Board stage={stage} handleClick={this.handleClickYF} />
             </div>
             <div>
               <Setup ship={ship} direction={direction} shipSelector={this.shipSelector} />
@@ -76,7 +78,7 @@ class App extends React.Component {
           </div>
           <div className="board-container">
             <div className="home-board">
-              <Board handleClick={this.handleClickYF} />
+              <Board stage={stage} handleClick={this.handleClickYF} />
             </div>
             <div className="radar">
               <Radar handleClick={this.handleClickRadar} />
