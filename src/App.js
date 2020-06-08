@@ -83,11 +83,9 @@ class App extends React.Component {
     } else {
       alert ('invalid placement');
     }
-    setTimeout(() => {
-      if (checkPlayerReady(player1Setup)) {
-        this.setState({ stage: 'ready1' })
-      }
-    }, 500)
+    if (checkPlayerReady(player1Setup)) {
+      this.setState({ stage: 'ready1' })
+    }
   }
 
   handleDeploy (e) {
