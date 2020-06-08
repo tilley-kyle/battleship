@@ -8,6 +8,7 @@ const app = express();
 const port = 8153;
 app.listen(port, () => console.log(`listening on ${port}`))
 app.use(cors());
+app.use(express.static('build'));
 
 app.get('/start', getScores);
 

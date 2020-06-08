@@ -1,5 +1,6 @@
 import React from 'react';
 import './stylesheet.css';
+import axios from 'axios';
 
 import Board from './components/Board';
 import Conditional from './components/Conditional';
@@ -33,15 +34,17 @@ class App extends React.Component {
         player2: 0,
       },
     };
-    this.handleClickYF = this.handleClickYF.bind(this);
     this.handleClickRadar = this.handleClickRadar.bind(this);
     this.shipSelector = this.shipSelector.bind(this);
     this.handleClickSetup = this.handleClickSetup.bind(this);
     this.handleDeploy = this.handleDeploy.bind(this);
   }
 
-  handleClickYF (coords) {
-    console.log(coords)
+  componentDidMount () {
+    axios.get('/start')
+      .then((res) => {
+        console.log(res)
+      })
   }
 
   handleClickRadar (coords) {
