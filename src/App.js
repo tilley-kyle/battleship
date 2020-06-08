@@ -15,7 +15,7 @@ class App extends React.Component {
       ship: 'carrier',
       direction: 'down',
       turn: 1,
-      board1: [[], [], [], [], [], [], [], [], [], []],
+      board1: [[], [], [], [], [], [], [], [], [], ['c','c','c','c','c','c','c','c','c','c']],
       radar1: [[], [], [], [], [], [], [], [], [], []],
       board2: [[], [], [], [], [], [], [], [], [], []],
       radar2: [[], [], [], [], [], [], [], [], [], []],
@@ -45,7 +45,7 @@ class App extends React.Component {
 
   handleClickSetup(coords) {
     const { board1, ship } = this.state;
-    vertCheck(board1, ship, coords);
+    console.log(vertCheck(board1, ship, coords));
   }
 
 

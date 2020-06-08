@@ -16,11 +16,12 @@ const vertCheck = (board, ship, coords) => {
       return null;
     }
     if (!board[yCoord(coords) + i][xCoord(coords)] ) {
-      console.log( 'ho' )
+      continue;
     } else {
-      console.log( 'hi' );
+      return null;
     }
   };
+  return true;
 }
 
 export default vertCheck;
