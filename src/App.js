@@ -45,11 +45,14 @@ class App extends React.Component {
 
   shipSelector(e) {
     e.preventDefault();
-    const { player1Setup, board1, ship } = this.state;
+    const { player1Setup, board1 } = this.state;
+    const currSetup = player1Setup;
     if (player1Setup[e.target.id] === true) {
       shipEraser(board1, e.target.id);
+      currSetup[e.target.id] = false;
+      this.setState({player1Setup: currSetup});
     }
-    this.setState({ship: e.target.id})
+    this.setState({ship: e.target.id});
   }
 
   handleClickSetup(coords) {
