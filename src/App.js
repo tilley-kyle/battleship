@@ -4,10 +4,12 @@ import './stylesheet.css';
 import Board from './components/Board';
 import Radar from './components/Radar';
 import Setup from './components/Setup';
+import StartButton from './components/StartButton';
 
 import vertCheck from './helperFunctions/vertCheck';
 import shipPlacer from './helperFunctions/shipPlacer';
 import shipEraser from './helperFunctions/shipEraser';
+import checkPlayerReady from './helperFunctions/checkPlayerReady';
 
 class App extends React.Component {
   constructor(props) {
@@ -68,6 +70,9 @@ class App extends React.Component {
     } else {
       alert ('invalid placement');
     }
+   if (checkPlayerReady(player1Setup)) {
+    this.setState({stage: 'ready1'});
+   }
   }
 
 
@@ -89,6 +94,9 @@ class App extends React.Component {
             </div>
             <div>
               <Setup ship={ship} direction={direction} shipSelector={this.shipSelector} />
+            </div>
+            <div className="">
+              {/* <StartButton stage={stage} /> */}
             </div>
           </div>
         </div>
