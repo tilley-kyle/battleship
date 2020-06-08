@@ -15,7 +15,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      stage: 'setup',
+      stage: 'battle',
       ship: '',
       direction: 'down',
       turn: 1,
@@ -85,8 +85,8 @@ class App extends React.Component {
 
 
   render() {
-    const { turn, stage, ship, direction, board1 } = this.state;
-    if (stage === 'setup' || stage === 'ready1') {
+    const { turn, stage, ship, direction, board1, radar1 } = this.state;
+
       return (
         <div className="total-container">
           <div className="heading-container">
@@ -105,6 +105,7 @@ class App extends React.Component {
                 direction={direction}
                 stage={stage}
                 board={board1}
+                radar={radar1}
                 shipSelector={this.shipSelector}
                 handleDeploy={this.handleDeploy}
                 handleClick={this.handleClickRadar}
@@ -112,27 +113,7 @@ class App extends React.Component {
           </div>
         </div>
       )
-    } else if (stage === 'battle') {
-      return (
-        <div className="total-container">
-          <div className="heading-container">
-            <h2 className="title">BattleShip: The Game... Onlinified</h2>
-            <div className="board-labels">
-              <div className="label-title">Admiral {turn}'s Fleet</div>
-              <div className="label-title">Radar</div>
-            </div>
-          </div>
-          <div className="board-container">
-            <div className="home-board">
-              <Board board={board1} stage={stage} handleClick={this.handleClickYF} />
-            </div>
-            <div className="radar">
-              <Radar board={board1} handleClick={this.handleClickRadar} />
-            </div>
-          </div>
-        </div>
-      )
-    }
+
   }
 }
 

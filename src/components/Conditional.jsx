@@ -1,8 +1,9 @@
 import React from 'react';
 import Radar from './Radar';
 import Setup from './Setup';
+import RadarBoard from './RadarBoard';
 
-const Conditional = ({ stage, ship, direction, board, shipSelector, handleDeploy, handleClick }) => {
+const Conditional = ({ stage, ship, direction, board, shipSelector, handleDeploy, handleClick, radar }) => {
   if (stage !== 'battle') {
     return (
       <div>
@@ -18,7 +19,7 @@ const Conditional = ({ stage, ship, direction, board, shipSelector, handleDeploy
   } else {
     return (
     <div className="radar">
-      <Radar board={board} handleClick={handleClick} />
+      <RadarBoard board={radar} handleClick={handleClick} />
     </div>
     );
   }
