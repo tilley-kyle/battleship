@@ -80,6 +80,17 @@
   align-items: center;
 }
 
+.start-button-grey {
+  position: absolute;
+  bottom: 40px;
+}
+
+.start-button-red {
+  position: absolute;
+  bottom: 40px;
+  background-color: red;
+}
+
 .arrow {
   width: 0;
   height: 0;

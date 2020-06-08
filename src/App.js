@@ -4,7 +4,6 @@ import './stylesheet.css';
 import Board from './components/Board';
 import Radar from './components/Radar';
 import Setup from './components/Setup';
-import StartButton from './components/StartButton';
 
 import vertCheck from './helperFunctions/vertCheck';
 import shipPlacer from './helperFunctions/shipPlacer';
@@ -35,17 +34,18 @@ class App extends React.Component {
     this.handleClickRadar = this.handleClickRadar.bind(this);
     this.shipSelector = this.shipSelector.bind(this);
     this.handleClickSetup = this.handleClickSetup.bind(this);
+    this.handleDeploy = this.handleDeploy.bind(this);
   }
 
-  handleClickYF(coords) {
+  handleClickYF (coords) {
     console.log(coords)
   }
 
-  handleClickRadar(coords) {
+  handleClickRadar (coords) {
     console.log(coords)
   }
 
-  shipSelector(e) {
+  shipSelector (e) {
     e.preventDefault();
     const { player1Setup, board1 } = this.state;
     const currSetup = player1Setup;
@@ -57,7 +57,7 @@ class App extends React.Component {
     this.setState({ship: e.target.id});
   }
 
-  handleClickSetup(coords) {
+  handleClickSetup (coords) {
     const { board1, ship, player1Setup } = this.state;
     const currSetup = player1Setup;
     if (vertCheck(board1, ship, coords)) {
@@ -73,6 +73,10 @@ class App extends React.Component {
    if (checkPlayerReady(player1Setup)) {
     this.setState({stage: 'ready1'});
    }
+  }
+
+  handleDeploy (e) {
+    e.preventDefault();
   }
 
 
@@ -93,10 +97,13 @@ class App extends React.Component {
               <Board board={board1} handleClick={this.handleClickSetup} />
             </div>
             <div>
-              <Setup ship={ship} direction={direction} shipSelector={this.shipSelector} />
-            </div>
-            <div className="">
-              {/* <StartButton stage={stage} /> */}
+              <Setup
+                ship={ship}
+                direction={direction}
+                stage={stage}
+                shipSelector={this.shipSelector}
+                handleDeploy={this.handleDeploy}
+              />
             </div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import React from 'react';
+import StartButton from './StartButton';
 
-const Setup = ({ ship, direction, shipSelector }) => {
+const Setup = ({ ship, direction, shipSelector, handleDeploy, stage }) => {
   const blocks = {
     Carrier: 5,
     Battleship: 4,
@@ -21,6 +22,7 @@ const Setup = ({ ship, direction, shipSelector }) => {
         and will point {direction}
       </div>
       <div className={arrow} />
+      <StartButton stage={stage} handleDeploy={handleDeploy} />
     </div>
   )
 };
