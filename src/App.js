@@ -4,6 +4,7 @@ import './stylesheet.css';
 import Board from './components/Board';
 import Radar from './components/Radar';
 import Setup from './components/Setup';
+import Conditional from './components/Conditional';
 
 import vertCheck from './helperFunctions/vertCheck';
 import shipPlacer from './helperFunctions/shipPlacer';
@@ -14,7 +15,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      stage: 'ready1',
+      stage: 'setup',
       ship: '',
       direction: 'down',
       turn: 1,
@@ -99,15 +100,15 @@ class App extends React.Component {
             <div className="home-board">
               <Board board={board1} stage={stage} handleClick={this.handleClickSetup} />
             </div>
-            <div>
-              <Setup
+              <Conditional
                 ship={ship}
                 direction={direction}
                 stage={stage}
+                board={board1}
                 shipSelector={this.shipSelector}
                 handleDeploy={this.handleDeploy}
+                handleClick={this.handleClickRadar}
               />
-            </div>
           </div>
         </div>
       )
