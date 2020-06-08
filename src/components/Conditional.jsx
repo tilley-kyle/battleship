@@ -19,7 +19,7 @@ const Conditional = ({ stage, ship, direction, board, shipSelector, handleDeploy
   } else {
     return (
     <div className="radar">
-      <RadarBoard board={radar} handleClick={handleClick} />
+      <RadarBoard radar={radar} handleClick={handleClick} />
     </div>
     );
   }

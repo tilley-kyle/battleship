@@ -9,12 +9,13 @@ import shipPlacer from './helperFunctions/shipPlacer';
 import shipEraser from './helperFunctions/shipEraser';
 import checkPlayerReady from './helperFunctions/checkPlayerReady';
 import radarHit from './helperFunctions/radarHit';
+import radarPlacer from './helperFunctions/radarPlacer';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      stage: 'battle',
+      stage: 'setup',
       ship: '',
       direction: 'down',
       turn: 1,
@@ -42,8 +43,10 @@ class App extends React.Component {
   }
 
   handleClickRadar (coords) {
-    const { board1 } = this.state;
-    radarHit(coords, board1);
+    const { board1, radar1 } = this.state;
+    if (radarHit(coords, board1)) {
+      this.setState({ radar1: radarPlacer(coords, radar1) });
+    }
   }
 
   shipSelector (e) {
