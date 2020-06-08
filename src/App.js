@@ -2,14 +2,13 @@ import React from 'react';
 import './stylesheet.css';
 
 import Board from './components/Board';
-import Radar from './components/Radar';
-import Setup from './components/Setup';
 import Conditional from './components/Conditional';
 
 import vertCheck from './helperFunctions/vertCheck';
 import shipPlacer from './helperFunctions/shipPlacer';
 import shipEraser from './helperFunctions/shipEraser';
 import checkPlayerReady from './helperFunctions/checkPlayerReady';
+import radarHit from './helperFunctions/radarHit';
 
 class App extends React.Component {
   constructor(props) {
@@ -43,7 +42,8 @@ class App extends React.Component {
   }
 
   handleClickRadar (coords) {
-    console.log(coords)
+    const { board1 } = this.state;
+    radarHit(coords, board1);
   }
 
   shipSelector (e) {
@@ -86,14 +86,14 @@ class App extends React.Component {
 
   render() {
     const { turn, stage, ship, direction, board1, radar1 } = this.state;
-
+    const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
       return (
         <div className="total-container">
           <div className="heading-container">
             <h2 className="title">BattleShip: The Game... Onlinified</h2>
             <div className="board-labels">
               <div className="label-title">Admiral {turn}'s Fleet</div>
-              <div className="label-title">Deployment Console</div>
+              <div className="label-title">{headerRight}</div>
             </div>
           </div>
           <div className="board-container">

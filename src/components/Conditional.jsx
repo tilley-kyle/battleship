@@ -1,5 +1,5 @@
 import React from 'react';
-import Radar from './Radar';
+// import Radar from './Radar';
 import Setup from './Setup';
 import RadarBoard from './RadarBoard';
 
