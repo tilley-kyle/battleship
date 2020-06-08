@@ -3,7 +3,6 @@ import yCoord from './yCoord';
 
 
 const vertCheck = (board, ship, coords) => {
-  console.log(ship)
   const shipSizes = {
     Carrier: 5,
     Battleship: 4,

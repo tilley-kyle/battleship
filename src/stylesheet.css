@@ -83,6 +83,11 @@
 .start-button-grey {
   position: absolute;
   bottom: 40px;
+  color: darkgrey
+}
+
+.start-button-grey:hover {
+  
 }
 
 .start-button-red {

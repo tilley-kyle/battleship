@@ -70,19 +70,22 @@ class App extends React.Component {
     } else {
       alert ('invalid placement');
     }
-   if (checkPlayerReady(player1Setup)) {
-    this.setState({stage: 'ready1'});
-   }
+    setTimeout(() => {
+      if (checkPlayerReady(player1Setup)) {
+        this.setState({ stage: 'ready1' })
+      }
+    }, 1000)
   }
 
   handleDeploy (e) {
     e.preventDefault();
+    this.setState({ stage: 'battle'})
   }
 
 
   render() {
     const { turn, stage, ship, direction, board1 } = this.state;
-    if (stage === 'setup') {
+    if (stage === 'setup' || stage === 'ready1') {
       return (
         <div className="total-container">
           <div className="heading-container">
@@ -108,7 +111,7 @@ class App extends React.Component {
           </div>
         </div>
       )
-    } else {
+    } else if (stage === 'battle') {
       return (
         <div className="total-container">
           <div className="heading-container">
