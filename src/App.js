@@ -11,7 +11,7 @@ class App extends React.Component {
     this.state = {
       stage: 'setup',
       ship: 'carrier',
-      direction: 'up',
+      direction: 'down',
       turn: 1,
       board1: [[], [], [], [], [], [], [], [], [], []],
       radar1: [[], [], [], [], [], [], [], [], [], []],
@@ -24,6 +24,7 @@ class App extends React.Component {
     };
     this.handleClickYF = this.handleClickYF.bind(this);
     this.handleClickRadar = this.handleClickRadar.bind(this);
+    this.shipSelector = this.shipSelector.bind(this);
   }
 
   handleClickYF(coords) {
@@ -33,6 +34,13 @@ class App extends React.Component {
   handleClickRadar(coords) {
     console.log(coords)
   }
+
+  shipSelector(e) {
+    e.preventDefault();
+    this.setState({ship: e.target.id})
+  }
+
+
 
   render() {
     const { turn, stage, ship, direction } = this.state;
@@ -51,7 +59,7 @@ class App extends React.Component {
               <Board handleClick={this.handleClickYF} />
             </div>
             <div>
-              <Setup ship={ship} direction={direction} />
+              <Setup ship={ship} direction={direction} shipSelector={this.shipSelector} />
             </div>
           </div>
         </div>
