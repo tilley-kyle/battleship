@@ -13,9 +13,11 @@ class App extends React.Component {
     super(props);
     this.state = {
       stage: 'setup',
-      ship: 'carrier',
+      ship: '',
       direction: 'down',
       turn: 1,
+      player1Setup: {},
+      player2Setup: {},
       currBoard: [[], [], [], [], [], [], [], [], [], []],
       board1: [[], [], [], [], [], [], [], [], [], []],
       radar1: [[], [], [], [], [], [], [], [], [], []],
@@ -46,9 +48,14 @@ class App extends React.Component {
   }
 
   handleClickSetup(coords) {
-    const { board1, ship } = this.state;
+    const { board1, ship, player1Setup } = this.state;
+    const currSetup = player1Setup;
     if (vertCheck(board1, ship, coords)) {
-      this.setState({board1: shipPlacer(board1, ship, coords)})
+      currSetup[ship] = true;
+      this.setState({
+        board1: shipPlacer(board1, ship, coords),
+        player1Setup: currSetup,
+      })
     } else {
       alert ('invalid placement');
     }

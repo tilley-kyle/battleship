@@ -3,11 +3,11 @@ import xCoord from './xCoord';
 
 const shipPlacer = (board, ship, coords) => {
   const shipSizes = {
-    carrier: 5,
-    battleship: 4,
-    destroyer: 3,
-    submarine: 3,
-    patrolboat: 2,
+    Carrier: 5,
+    Battleship: 4,
+    Destroyer: 3,
+    Submarine: 3,
+    PatrolBoat: 2,
   }
   const length = shipSizes[ship];
   for (let i = 0; i < length; i += 1) {
