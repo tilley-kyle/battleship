@@ -32,12 +32,6 @@ class App extends React.Component {
         radar: [[], [], [], [], [], [], [], [], [], []],
         hits: 0,
       },
-      board1: [[], [], [], [], [], [], [], [], [], []],
-      radar1: [[], [], [], [], [], [], [], [], [], []],
-      hitsBy1: 0,
-      board2: [[], [], [], [], [], [], [], [], [], []],
-      radar2: [[], [], [], [], [], [], [], [], [], []],
-      hitsBy2: 0,
       scores: {
         player1: 0,
         player2: 0,
@@ -57,13 +51,13 @@ class App extends React.Component {
   }
 
   handleClickRadar (coords) {
-    const { radar1, turn, turn1, turn2 } = this.state;
+    const { turn, turn1, turn2 } = this.state;
     const currTurn = turn === 1 ? turn1 : turn2;
     let { scores } = this.state;
     let currHits = turn === 1 ? currTurn.hits : currTurn.hits;
     if (radarHit(coords, currTurn.board)) {
       this.setState({
-        [currTurn]: radarPlacer(coords, radar1, true),
+        [currTurn]: radarPlacer(coords, currTurn.radar, true),
         [currHits]: currHits += 1
       });
     } else {
@@ -91,7 +85,7 @@ class App extends React.Component {
   }
 
   handleClickSetup (coords) {
-    const { board1, ship, player1Setup, turn, turn1, turn2 } = this.state;
+    const { ship, player1Setup, turn, turn1, turn2 } = this.state;
     const currTurn = turn === 1 ? turn1 : turn2;
     const currSetup = player1Setup;
     if (vertCheck(currTurn.board, ship, coords)) {
@@ -141,15 +135,15 @@ class App extends React.Component {
           </div>
           <div className="board-container">
             <div className="home-board">
-              <Board currTurn={currTurn} board={board1} stage={stage} handleClick={this.handleClickSetup} />
+              <Board currTurn={currTurn} board={currTurn.board} stage={stage} handleClick={this.handleClickSetup} />
             </div>
               <Conditional
                 ship={ship}
                 direction={direction}
                 stage={stage}
                 currTurn={currTurn}
-                board={board1}
-                radar={radar1}
+                board={currTurn.board}
+                radar={currTurn.radar}
                 shipSelector={this.shipSelector}
                 handleDeploy={this.handleDeploy}
                 handleClick={this.handleClickRadar}
