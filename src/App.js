@@ -22,13 +22,16 @@ class App extends React.Component {
       turn: 1,
       player1Setup: {},
       player2Setup: {},
-      currBoard: [[], [], [], [], [], [], [], [], [], []],
-      board1: [[], [], [], [], [], [], [], [], [], []],
-      radar1: [[], [], [], [], [], [], [], [], [], []],
-      hitsBy1: 0,
-      board2: [[], [], [], [], [], [], [], [], [], []],
-      radar2: [[], [], [], [], [], [], [], [], [], []],
-      hitsBy2: 0,
+      turn1: {
+        board: [[], [], [], [], [], [], [], [], [], []],
+        radar: [[], [], [], [], [], [], [], [], [], []],
+        hits: 0,
+      },
+      turn2: {
+        board: [[], [], [], [], [], [], [], [], [], []],
+        radar: [[], [], [], [], [], [], [], [], [], []],
+        hits: 0,
+      },
       scores: {
         player1: 0,
         player2: 0,
@@ -40,97 +43,122 @@ class App extends React.Component {
     this.handleDeploy = this.handleDeploy.bind(this);
   }
 
-  componentDidMount () {
+  componentDidMount() {
     axios.get('/start')
       .then((res) => {
         console.log(res)
       })
   }
 
-  handleClickRadar (coords) {
-    const { board1, radar1 } = this.state;
-    let { hitsBy1, scores } = this.state;
-    if (radarHit(coords, board1)) {
-      this.setState({
-        radar1: radarPlacer(coords, radar1, true),
-        hitsBy1: hitsBy1 += 1
-      });
+  handleClickRadar(coords) {
+    const { turn, turn1, turn2 } = this.state;
+    const currTurn = turn === 1 ? turn1 : turn2;
+    const otherTurn = turn === 2 ? turn1 : turn2;
+    const turnNum = turn === 1 ? 2 : 1;
+    let { scores } = this.state;
+    if (radarHit(coords, otherTurn.board)) {
+      currTurn.radar = radarPlacer(coords, currTurn.radar, true);
+      currTurn.hits = currTurn.hits += 1;
+      this.setState( currTurn );
+      setTimeout(() => {
+        this.setState({ turn: turnNum })
+      }, 1000);
     } else {
-      this.setState({ radar1: radarPlacer(coords, radar1, false) });
+      currTurn.radar = radarPlacer(coords, currTurn.radar, false);
+      this.setState( currTurn );
+      setTimeout(() => {
+        this.setState({ turn: turnNum })
+      }, 1000);
     }
-    if (hitsBy1 === 17) {
+    if (currTurn.hits === 17) {
       console.log(scores)
-      alert ('Player 1 Wins!');
+      alert('Player 1 Wins!');
       scores.player1 += 1;
       axios.put('http://127.0.0.1:8153/result', scores);
     }
   }
 
-  shipSelector (e) {
+  shipSelector(e) {
     e.preventDefault();
-    const { player1Setup, board1 } = this.state;
+    const { player1Setup, turn, turn1, turn2 } = this.state;
+    const currTurn = turn === 1 ? turn1 : turn2;
     const currSetup = player1Setup;
     if (player1Setup[e.target.id] === true) {
-      shipEraser(board1, e.target.id);
+      shipEraser(currTurn.board, e.target.id);
       currSetup[e.target.id] = false;
       this.setState({ player1Setup: currSetup });
     }
     this.setState({ ship: e.target.id });
   }
 
-  handleClickSetup (coords) {
-    const { board1, ship, player1Setup } = this.state;
+  handleClickSetup(coords) {
+    const { ship, player1Setup, turn, turn1, turn2 } = this.state;
+    const currTurn = turn === 1 ? turn1 : turn2;
     const currSetup = player1Setup;
-    if (vertCheck(board1, ship, coords)) {
+    if (vertCheck(currTurn.board, ship, coords)) {
       currSetup[ship] = true;
-      this.setState({
-        board1: shipPlacer(board1, ship, coords),
-        player1Setup: currSetup,
-        ship: '',
-      });
+      currTurn.board = shipPlacer(currTurn.board, ship, coords);
+      this.setState( currTurn );
     } else {
-      alert ('invalid placement');
+      alert('invalid placement');
     }
     if (checkPlayerReady(player1Setup)) {
       this.setState({ stage: 'ready1' })
     }
   }
 
-  handleDeploy (e) {
+  handleDeploy(e) {
     e.preventDefault();
-    this.setState({ stage: 'battle' })
+    const { turn } = this.state;
+    if (turn === 1) {
+      this.setState({ turn: 2 });
+    } else if (turn === 2) {
+      this.setState({ stage: 'battle', turn: 1 });
+    }
+  }
+
+  switch(e) {
+    e.preventDefault();
+    if (this.state.stage === "setup") {
+      this.setState({ stage: 'battle' });
+    } else {
+      this.setState({ stage: 'setup' });
+    }
   }
 
 
   render() {
-    const { turn, stage, ship, direction, board1, radar1 } = this.state;
+    const { turn, stage, ship, direction, turn1, turn2 } = this.state;
+    const currTurn = turn === 1 ? turn1 : turn2;
+    const otherTurn = turn === 2 ? turn1 : turn2;
     const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
-      return (
-        <div className="total-container">
-          <div className="heading-container">
-            <h2 className="title">BattleShip: The Game... Onlinified</h2>
-            <div className="board-labels">
-              <div className="label-title">Admiral {turn}'s Fleet</div>
-              <div className="label-title">{headerRight}</div>
-            </div>
-          </div>
-          <div className="board-container">
-            <div className="home-board">
-              <Board board={board1} stage={stage} handleClick={this.handleClickSetup} />
-            </div>
-              <Conditional
-                ship={ship}
-                direction={direction}
-                stage={stage}
-                board={board1}
-                radar={radar1}
-                shipSelector={this.shipSelector}
-                handleDeploy={this.handleDeploy}
-                handleClick={this.handleClickRadar}
-              />
+    return (
+      <div className="total-container">
+        <div className="heading-container">
+          <h2 className="title">BattleShip: The Game... Onlinified</h2>
+          <div className="board-labels">
+            <div className="label-title">Admiral {turn}'s Fleet</div>
+            <div className="label-title">{headerRight}</div>
           </div>
         </div>
-      )
+        <div className="board-container">
+          <div className="home-board">
+            <Board currTurn={currTurn} otherTurn={otherTurn} stage={stage} handleClick={this.handleClickSetup} />
+          </div>
+          <Conditional
+            ship={ship}
+            direction={direction}
+            stage={stage}
+            currTurn={currTurn}
+            otherTurn={otherTurn}
+            shipSelector={this.shipSelector}
+            handleDeploy={this.handleDeploy}
+            handleClick={this.handleClickRadar}
+          />
+        </div>
+        <button className="temp" onClick={(e) => this.switch(e)}>switch to radar</button>
+      </div>
+    )
 
   }
 }
