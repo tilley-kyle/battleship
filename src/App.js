@@ -120,7 +120,7 @@ class App extends React.Component {
 
 
   render() {
-    const { turn, stage, ship, direction, board1, radar1, turn1, turn2 } = this.state;
+    const { turn, stage, ship, direction, turn1, turn2 } = this.state;
     const currTurn = turn === 1 ? turn1 : turn2;
     const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
       return (
