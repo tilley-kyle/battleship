@@ -1,4 +1,5 @@
 .total-container {
+  /* background-image: url('./ussiowa.jpg'); */
  display: grid;
  grid-template-rows: 15vmin 80vmin;
  min-width: 850px;
@@ -35,6 +36,7 @@
 
 .home-board {
   background-image: url("./ocean.jpg");
+  color: #EBC739;
   display: grid;
   grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
   grid-template-rows: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
