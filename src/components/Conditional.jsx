@@ -3,7 +3,7 @@ import React from 'react';
 import Setup from './Setup';
 import RadarBoard from './RadarBoard';
 
-const Conditional = ({ stage, ship, direction, board, shipSelector, handleDeploy, handleClick, radar, currTurn }) => {
+const Conditional = ({ stage, ship, direction, shipSelector, handleDeploy, handleClick, currTurn }) => {
   if (stage !== 'battle') {
     return (
       <div>

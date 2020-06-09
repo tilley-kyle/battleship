@@ -142,8 +142,6 @@ class App extends React.Component {
                 direction={direction}
                 stage={stage}
                 currTurn={currTurn}
-                board={currTurn.board}
-                radar={currTurn.radar}
                 shipSelector={this.shipSelector}
                 handleDeploy={this.handleDeploy}
                 handleClick={this.handleClickRadar}
