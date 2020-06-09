@@ -1,6 +1,7 @@
 import React from 'react';
 import './stylesheet.css';
 import axios from 'axios';
+import { Socket } from 'react-socket-io';
 
 import Board from './components/Board';
 import Conditional from './components/Conditional';
@@ -11,6 +12,9 @@ import shipEraser from './helperFunctions/shipEraser';
 import checkPlayerReady from './helperFunctions/checkPlayerReady';
 import radarHit from './helperFunctions/radarHit';
 import radarPlacer from './helperFunctions/radarPlacer';
+
+const uri = 'http://localhost/';
+const options = { transports: ['websocket'] };
 
 class App extends React.Component {
   constructor(props) {
@@ -46,7 +50,6 @@ class App extends React.Component {
   componentDidMount() {
     axios.get('/start')
       .then((res) => {
-        console.log(res)
       })
   }
 
@@ -59,13 +62,13 @@ class App extends React.Component {
     if (radarHit(coords, otherTurn.board)) {
       currTurn.radar = radarPlacer(coords, currTurn.radar, true);
       currTurn.hits = currTurn.hits += 1;
-      this.setState( currTurn );
+      this.setState(currTurn);
       setTimeout(() => {
         this.setState({ turn: turnNum })
       }, 1000);
     } else {
       currTurn.radar = radarPlacer(coords, currTurn.radar, false);
-      this.setState( currTurn );
+      this.setState(currTurn);
       setTimeout(() => {
         this.setState({ turn: turnNum })
       }, 1000);
@@ -98,7 +101,7 @@ class App extends React.Component {
     if (vertCheck(currTurn.board, ship, coords)) {
       currSetup[ship] = true;
       currTurn.board = shipPlacer(currTurn.board, ship, coords);
-      this.setState( currTurn );
+      this.setState(currTurn);
     } else {
       alert('invalid placement');
     }
@@ -134,6 +137,9 @@ class App extends React.Component {
     const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
     return (
       <div className="total-container">
+        <Socket uri={uri} options={options}>
+          {this.props.children}
+        </Socket>
         <div className="heading-container">
           <h2 className="title">BattleShip: The Game... Onlinified</h2>
           <div className="board-labels">
