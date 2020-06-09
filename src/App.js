@@ -27,7 +27,7 @@ class App extends React.Component {
         radar: [[], [], [], [], [], [], [], [], [], []],
         hits: 0,
       },
-      turn2 : {
+      turn2: {
         board: [[], [], [], [], [], [], [], [], [], []],
         radar: [[], [], [], [], [], [], [], [], [], []],
         hits: 0,
@@ -43,36 +43,35 @@ class App extends React.Component {
     this.handleDeploy = this.handleDeploy.bind(this);
   }
 
-  componentDidMount () {
+  componentDidMount() {
     axios.get('/start')
       .then((res) => {
         console.log(res)
       })
   }
 
-  handleClickRadar (coords) {
+  handleClickRadar(coords) {
     const { turn, turn1, turn2 } = this.state;
-    const currTurn = turn === 1 ? turn1 : turn2;
+    let currTurn = turn === 1 ? turn1 : turn2;
     const otherTurn = turn === 2 ? turn1 : turn2;
     let { scores } = this.state;
-    let currHits = turn === 1 ? currTurn.hits : currTurn.hits;
     if (radarHit(coords, otherTurn.board)) {
-      this.setState({
-        [currTurn]: radarPlacer(coords, currTurn.radar, true),
-        [currHits]: currHits += 1
-      });
+      currTurn.radar = radarPlacer(coords, currTurn.radar, true);
+      currTurn.hits = currTurn.hits += 1;
+      this.setState( currTurn );
     } else {
-      this.setState({ radar1: radarPlacer(coords, currTurn.radar, false) });
+      currTurn.radar = radarPlacer(coords, currTurn.radar, false);
+      this.setState( currTurn );
     }
     if (currTurn.hits === 17) {
       console.log(scores)
-      alert ('Player 1 Wins!');
+      alert('Player 1 Wins!');
       scores.player1 += 1;
       axios.put('http://127.0.0.1:8153/result', scores);
     }
   }
 
-  shipSelector (e) {
+  shipSelector(e) {
     e.preventDefault();
     const { player1Setup, turn, turn1, turn2 } = this.state;
     const currTurn = turn === 1 ? turn1 : turn2;
@@ -85,39 +84,36 @@ class App extends React.Component {
     this.setState({ ship: e.target.id });
   }
 
-  handleClickSetup (coords) {
+  handleClickSetup(coords) {
     const { ship, player1Setup, turn, turn1, turn2 } = this.state;
     const currTurn = turn === 1 ? turn1 : turn2;
     const currSetup = player1Setup;
     if (vertCheck(currTurn.board, ship, coords)) {
       currSetup[ship] = true;
-      const turnObj = {
-        board: shipPlacer(currTurn.board, ship, coords),
-        radar: currTurn.radar,
-        hits: currTurn.hits,
-      }
-      this.setState({
-        [currTurn]: turnObj,
-        player1Setup: currSetup,
-        ship: '',
-      });
+      currTurn.board = shipPlacer(currTurn.board, ship, coords);
+      this.setState( currTurn );
     } else {
-      alert ('invalid placement');
+      alert('invalid placement');
     }
     if (checkPlayerReady(player1Setup)) {
       this.setState({ stage: 'ready1' })
     }
   }
 
-  handleDeploy (e) {
+  handleDeploy(e) {
     e.preventDefault();
-    this.setState({ stage: 'battle' })
+    const { turn } = this.state;
+    if (turn === 1) {
+      this.setState({ turn: 2 });
+    } else if (turn === 2) {
+      this.setState({ stage: 'battle' });
+    }
   }
 
   switch(e) {
     e.preventDefault();
     if (this.state.stage === "setup") {
-    this.setState({ stage: 'battle' });
+      this.setState({ stage: 'battle' });
     } else {
       this.setState({ stage: 'setup' });
     }
@@ -129,33 +125,33 @@ class App extends React.Component {
     const currTurn = turn === 1 ? turn1 : turn2;
     const otherTurn = turn === 2 ? turn1 : turn2;
     const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
-      return (
-        <div className="total-container">
-          <div className="heading-container">
-            <h2 className="title">BattleShip: The Game... Onlinified</h2>
-            <div className="board-labels">
-              <div className="label-title">Admiral {turn}'s Fleet</div>
-              <div className="label-title">{headerRight}</div>
-            </div>
+    return (
+      <div className="total-container">
+        <div className="heading-container">
+          <h2 className="title">BattleShip: The Game... Onlinified</h2>
+          <div className="board-labels">
+            <div className="label-title">Admiral {turn}'s Fleet</div>
+            <div className="label-title">{headerRight}</div>
           </div>
-          <div className="board-container">
-            <div className="home-board">
-              <Board currTurn={currTurn} otherTurn={otherTurn} stage={stage} handleClick={this.handleClickSetup} />
-            </div>
-              <Conditional
-                ship={ship}
-                direction={direction}
-                stage={stage}
-                currTurn={currTurn}
-                otherTurn={otherTurn}
-                shipSelector={this.shipSelector}
-                handleDeploy={this.handleDeploy}
-                handleClick={this.handleClickRadar}
-              />
-          </div>
-          <button className="temp" onClick={(e) => this.switch(e)}>switch to radar</button>
         </div>
-      )
+        <div className="board-container">
+          <div className="home-board">
+            <Board currTurn={currTurn} otherTurn={otherTurn} stage={stage} handleClick={this.handleClickSetup} />
+          </div>
+          <Conditional
+            ship={ship}
+            direction={direction}
+            stage={stage}
+            currTurn={currTurn}
+            otherTurn={otherTurn}
+            shipSelector={this.shipSelector}
+            handleDeploy={this.handleDeploy}
+            handleClick={this.handleClickRadar}
+          />
+        </div>
+        <button className="temp" onClick={(e) => this.switch(e)}>switch to radar</button>
+      </div>
+    )
 
   }
 }
