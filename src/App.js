@@ -56,7 +56,7 @@ class App extends React.Component {
     const otherTurn = turn === 2 ? turn1 : turn2;
     let { scores } = this.state;
     let currHits = turn === 1 ? currTurn.hits : currTurn.hits;
-    if (radarHit(coords, currTurn.board)) {
+    if (radarHit(coords, otherTurn.board)) {
       this.setState({
         [currTurn]: radarPlacer(coords, currTurn.radar, true),
         [currHits]: currHits += 1
