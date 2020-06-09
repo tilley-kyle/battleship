@@ -70,7 +70,9 @@
   min-width: 90%;
   max-height: 100%;
   max-width: 100%;
-  padding: 10px;
+  padding: 00px;
+  background-color: black;
+  border: 10px solid white
 }
 
 .tile {
@@ -80,6 +82,14 @@
   align-items: center;
 }
 
+.radar-tile {
+  display: flex;
+  border: 0.5px solid #02F807;
+  justify-content: center;
+  align-items: center;
+  color: red;
+}
+
 .start-button-grey {
   position: absolute;
   bottom: 40px;
@@ -87,7 +97,7 @@
 }
 
 .start-button-grey:hover {
-  
+
 }
 
 .start-button-red {

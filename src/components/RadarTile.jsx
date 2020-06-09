@@ -4,7 +4,7 @@ import yCoord from '../helperFunctions/yCoord';
 
 const RadarTile = ({ place, handleClick, radar }) => {
   return (
-    <div className="tile" coords={place} onClick={(e) => handleClick(place)}>
+    <div className="radar-tile" coords={place} onClick={(e) => handleClick(place)}>
       {radar[yCoord(place)][xCoord(place)]}
     </div>
   )

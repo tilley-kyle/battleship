@@ -16,7 +16,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      stage: 'setup',
+      stage: 'battle',
       ship: '',
       direction: 'down',
       turn: 1,
