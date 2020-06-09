@@ -57,9 +57,9 @@ class App extends React.Component {
   }
 
   handleClickRadar (coords) {
-    const { board1, radar1, turn, turn1, turn2 } = this.state;
+    const { radar1, turn, turn1, turn2 } = this.state;
     const currTurn = turn === 1 ? turn1 : turn2;
-    let { hitsBy1, hitsBy2, scores } = this.state;
+    let { scores } = this.state;
     let currHits = turn === 1 ? currTurn.hits : currTurn.hits;
     if (radarHit(coords, currTurn.board)) {
       this.setState({
@@ -79,7 +79,7 @@ class App extends React.Component {
 
   shipSelector (e) {
     e.preventDefault();
-    const { player1Setup, board1, turn, turn1, turn2 } = this.state;
+    const { player1Setup, turn, turn1, turn2 } = this.state;
     const currTurn = turn === 1 ? turn1 : turn2;
     const currSetup = player1Setup;
     if (player1Setup[e.target.id] === true) {
@@ -96,8 +96,13 @@ class App extends React.Component {
     const currSetup = player1Setup;
     if (vertCheck(currTurn.board, ship, coords)) {
       currSetup[ship] = true;
+      const turnObj = {
+        board: shipPlacer(currTurn.board, ship, coords),
+        radar: currTurn.radar,
+        hits: currTurn.hits,
+      }
       this.setState({
-        board1: shipPlacer(currTurn.board, ship, coords),
+        [currTurn]: turnObj,
         player1Setup: currSetup,
         ship: '',
       });
@@ -114,6 +119,11 @@ class App extends React.Component {
     this.setState({ stage: 'battle' })
   }
 
+  switch(e) {
+    e.preventDefault();
+    this.setState({ stage: 'battle' });
+  }
+
 
   render() {
     const { turn, stage, ship, direction, board1, radar1, turn1, turn2 } = this.state;
@@ -122,6 +132,7 @@ class App extends React.Component {
       return (
         <div className="total-container">
           <div className="heading-container">
+            <button onClick={(e) => this.switch(e)}>switch to radar</button>
             <h2 className="title">BattleShip: The Game... Onlinified</h2>
             <div className="board-labels">
               <div className="label-title">Admiral {turn}'s Fleet</div>
