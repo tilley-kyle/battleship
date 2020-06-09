@@ -60,11 +60,15 @@ class App extends React.Component {
       currTurn.radar = radarPlacer(coords, currTurn.radar, true);
       currTurn.hits = currTurn.hits += 1;
       this.setState( currTurn );
-      this.setState({ turn: turnNum });
+      setTimeout(() => {
+        this.setState({ turn: turnNum })
+      }, 1000);
     } else {
       currTurn.radar = radarPlacer(coords, currTurn.radar, false);
       this.setState( currTurn );
-      this.setState({ turn: turnNum });
+      setTimeout(() => {
+        this.setState({ turn: turnNum })
+      }, 1000);
     }
     if (currTurn.hits === 17) {
       console.log(scores)
@@ -109,7 +113,7 @@ class App extends React.Component {
     if (turn === 1) {
       this.setState({ turn: 2 });
     } else if (turn === 2) {
-      this.setState({ stage: 'battle' });
+      this.setState({ stage: 'battle', turn: 1 });
     }
   }
 
