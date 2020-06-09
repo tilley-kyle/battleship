@@ -52,16 +52,19 @@ class App extends React.Component {
 
   handleClickRadar(coords) {
     const { turn, turn1, turn2 } = this.state;
-    let currTurn = turn === 1 ? turn1 : turn2;
+    const currTurn = turn === 1 ? turn1 : turn2;
     const otherTurn = turn === 2 ? turn1 : turn2;
+    const turnNum = turn === 1 ? 2 : 1;
     let { scores } = this.state;
     if (radarHit(coords, otherTurn.board)) {
       currTurn.radar = radarPlacer(coords, currTurn.radar, true);
       currTurn.hits = currTurn.hits += 1;
       this.setState( currTurn );
+      this.setState({ turn: turnNum });
     } else {
       currTurn.radar = radarPlacer(coords, currTurn.radar, false);
       this.setState( currTurn );
+      this.setState({ turn: turnNum });
     }
     if (currTurn.hits === 17) {
       console.log(scores)
