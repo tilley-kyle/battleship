@@ -53,6 +53,7 @@ class App extends React.Component {
   handleClickRadar (coords) {
     const { turn, turn1, turn2 } = this.state;
     const currTurn = turn === 1 ? turn1 : turn2;
+    const otherTurn = turn === 2 ? turn1 : turn2;
     let { scores } = this.state;
     let currHits = turn === 1 ? currTurn.hits : currTurn.hits;
     if (radarHit(coords, currTurn.board)) {
@@ -115,18 +116,22 @@ class App extends React.Component {
 
   switch(e) {
     e.preventDefault();
+    if (this.state.stage === "setup") {
     this.setState({ stage: 'battle' });
+    } else {
+      this.setState({ stage: 'setup' });
+    }
   }
 
 
   render() {
     const { turn, stage, ship, direction, turn1, turn2 } = this.state;
     const currTurn = turn === 1 ? turn1 : turn2;
+    const otherTurn = turn === 2 ? turn1 : turn2;
     const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
       return (
         <div className="total-container">
           <div className="heading-container">
-            <button onClick={(e) => this.switch(e)}>switch to radar</button>
             <h2 className="title">BattleShip: The Game... Onlinified</h2>
             <div className="board-labels">
               <div className="label-title">Admiral {turn}'s Fleet</div>
@@ -135,18 +140,20 @@ class App extends React.Component {
           </div>
           <div className="board-container">
             <div className="home-board">
-              <Board currTurn={currTurn} board={currTurn.board} stage={stage} handleClick={this.handleClickSetup} />
+              <Board currTurn={currTurn} otherTurn={otherTurn} stage={stage} handleClick={this.handleClickSetup} />
             </div>
               <Conditional
                 ship={ship}
                 direction={direction}
                 stage={stage}
                 currTurn={currTurn}
+                otherTurn={otherTurn}
                 shipSelector={this.shipSelector}
                 handleDeploy={this.handleDeploy}
                 handleClick={this.handleClickRadar}
               />
           </div>
+          <button className="temp" onClick={(e) => this.switch(e)}>switch to radar</button>
         </div>
       )
 

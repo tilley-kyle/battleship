@@ -1,3 +1,7 @@
+.temp {
+  display: inline-block;
+}
+
 .total-container {
   /* background-image: url('./ussiowa.jpg'); */
  display: grid;
