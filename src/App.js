@@ -22,7 +22,16 @@ class App extends React.Component {
       turn: 1,
       player1Setup: {},
       player2Setup: {},
-      currBoard: [[], [], [], [], [], [], [], [], [], []],
+      turn1: {
+        board: [[], [], [], [], [], [], [], [], [], []],
+        radar: [[], [], [], [], [], [], [], [], [], []],
+        hits: 0,
+      },
+      turn2 : {
+        board: [[], [], [], [], [], [], [], [], [], []],
+        radar: [[], [], [], [], [], [], [], [], [], []],
+        hits: 0,
+      },
       board1: [[], [], [], [], [], [], [], [], [], []],
       radar1: [[], [], [], [], [], [], [], [], [], []],
       hitsBy1: 0,
@@ -48,17 +57,19 @@ class App extends React.Component {
   }
 
   handleClickRadar (coords) {
-    const { board1, radar1 } = this.state;
-    let { hitsBy1, scores } = this.state;
-    if (radarHit(coords, board1)) {
+    const { board1, radar1, turn, turn1, turn2 } = this.state;
+    const currTurn = turn === 1 ? turn1 : turn2;
+    let { hitsBy1, hitsBy2, scores } = this.state;
+    let currHits = turn === 1 ? currTurn.hits : currTurn.hits;
+    if (radarHit(coords, currTurn.board)) {
       this.setState({
-        radar1: radarPlacer(coords, radar1, true),
-        hitsBy1: hitsBy1 += 1
+        [currTurn]: radarPlacer(coords, radar1, true),
+        [currHits]: currHits += 1
       });
     } else {
-      this.setState({ radar1: radarPlacer(coords, radar1, false) });
+      this.setState({ radar1: radarPlacer(coords, currTurn.radar, false) });
     }
-    if (hitsBy1 === 17) {
+    if (currTurn.hits === 17) {
       console.log(scores)
       alert ('Player 1 Wins!');
       scores.player1 += 1;
@@ -68,10 +79,11 @@ class App extends React.Component {
 
   shipSelector (e) {
     e.preventDefault();
-    const { player1Setup, board1 } = this.state;
+    const { player1Setup, board1, turn, turn1, turn2 } = this.state;
+    const currTurn = turn === 1 ? turn1 : turn2;
     const currSetup = player1Setup;
     if (player1Setup[e.target.id] === true) {
-      shipEraser(board1, e.target.id);
+      shipEraser(currTurn.board, e.target.id);
       currSetup[e.target.id] = false;
       this.setState({ player1Setup: currSetup });
     }
@@ -79,12 +91,13 @@ class App extends React.Component {
   }
 
   handleClickSetup (coords) {
-    const { board1, ship, player1Setup } = this.state;
+    const { board1, ship, player1Setup, turn, turn1, turn2 } = this.state;
+    const currTurn = turn === 1 ? turn1 : turn2;
     const currSetup = player1Setup;
-    if (vertCheck(board1, ship, coords)) {
+    if (vertCheck(currTurn.board, ship, coords)) {
       currSetup[ship] = true;
       this.setState({
-        board1: shipPlacer(board1, ship, coords),
+        board1: shipPlacer(currTurn.board, ship, coords),
         player1Setup: currSetup,
         ship: '',
       });
@@ -103,7 +116,8 @@ class App extends React.Component {
 
 
   render() {
-    const { turn, stage, ship, direction, board1, radar1 } = this.state;
+    const { turn, stage, ship, direction, board1, radar1, turn1, turn2 } = this.state;
+    const currTurn = turn === 1 ? turn1 : turn2;
     const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
       return (
         <div className="total-container">
@@ -116,12 +130,13 @@ class App extends React.Component {
           </div>
           <div className="board-container">
             <div className="home-board">
-              <Board board={board1} stage={stage} handleClick={this.handleClickSetup} />
+              <Board currTurn={currTurn} board={board1} stage={stage} handleClick={this.handleClickSetup} />
             </div>
               <Conditional
                 ship={ship}
                 direction={direction}
                 stage={stage}
+                currTurn={currTurn}
                 board={board1}
                 radar={radar1}
                 shipSelector={this.shipSelector}
