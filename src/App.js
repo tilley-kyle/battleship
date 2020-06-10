@@ -2,6 +2,7 @@ import React from 'react';
 import './stylesheet.css';
 import axios from 'axios';
 import { Socket } from 'react-socket-io';
+import socketIOClient from 'socket.io-client';
 
 import Board from './components/Board';
 import Conditional from './components/Conditional';
@@ -20,6 +21,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      endpoint: 'http://localhost:8154/',
       stage: 'setup',
       ship: '',
       direction: 'down',
@@ -41,6 +43,7 @@ class App extends React.Component {
         player2: 0,
       },
     };
+    const socket = socketIOClient(this.state.endpoint);
     this.handleClickRadar = this.handleClickRadar.bind(this);
     this.shipSelector = this.shipSelector.bind(this);
     this.handleClickSetup = this.handleClickSetup.bind(this);
