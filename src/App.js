@@ -1,7 +1,7 @@
 import React from 'react';
 import './stylesheet.css';
 import axios from 'axios';
-import { Socket } from 'react-socket-io';
+// import { Socket } from 'react-socket-io';
 import socketIOClient from 'socket.io-client';
 
 import Board from './components/Board';
@@ -48,7 +48,7 @@ class App extends React.Component {
         player2: 0,
       },
     };
-    // const socket = socketIOClient(this.state.endpoint);
+    const socket = socketIOClient(this.state.endpoint);
     this.handleClickRadar = this.handleClickRadar.bind(this);
     this.shipSelector = this.shipSelector.bind(this);
     this.handleClickSetup = this.handleClickSetup.bind(this);
