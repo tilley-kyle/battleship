@@ -14,8 +14,6 @@ import checkPlayerReady from './helperFunctions/checkPlayerReady';
 import radarHit from './helperFunctions/radarHit';
 import radarPlacer from './helperFunctions/radarPlacer';
 
-const uri = 'http://localhost/';
-const options = { transports: ['websocket'] };
 
 class App extends React.Component {
   constructor(props) {
@@ -56,9 +54,15 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    const { players } = this.state;
     axios.get('/start')
       .then((res) => {
       })
+    if (!players.player1) {
+      players.player1 = true;
+      this.setState(players);
+      this.setState({ playerID: 1 });
+    }
   }
 
   handleClickRadar(coords) {
