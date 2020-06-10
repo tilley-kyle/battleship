@@ -151,9 +151,6 @@ class App extends React.Component {
     const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
     return (
       <div className="total-container">
-        {/* <Socket uri={uri} options={options}>
-          {this.props.children}
-        </Socket> */}
         <div className="heading-container">
           <h2 className="title">BattleShip: The Game... Onlinified</h2>
           <div className="board-labels">
