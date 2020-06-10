@@ -22,6 +22,11 @@ class App extends React.Component {
     super(props);
     this.state = {
       endpoint: 'http://localhost:8154/',
+      players: {
+        player1: false,
+        player2: false,
+      },
+      playerID: '',
       stage: 'setup',
       ship: '',
       direction: 'down',
@@ -43,7 +48,7 @@ class App extends React.Component {
         player2: 0,
       },
     };
-    const socket = socketIOClient(this.state.endpoint);
+    // const socket = socketIOClient(this.state.endpoint);
     this.handleClickRadar = this.handleClickRadar.bind(this);
     this.shipSelector = this.shipSelector.bind(this);
     this.handleClickSetup = this.handleClickSetup.bind(this);
@@ -131,7 +136,7 @@ class App extends React.Component {
       this.setState({ stage: 'setup' });
     }
     const socket = socketIOClient(this.state.endpoint);
-    socket.emit('test', 'hi');
+    socket.emit('test', this.state.turn);
   }
 
 
