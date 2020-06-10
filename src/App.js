@@ -130,6 +130,8 @@ class App extends React.Component {
     } else {
       this.setState({ stage: 'setup' });
     }
+    const socket = socketIOClient(this.state.endpoint);
+    socket.emit('test', 'hi');
   }
 
 

@@ -23,8 +23,16 @@ app.put('/result', putScores);
 
 io.on('connection', (socket) => {
   console.log('a user connected');
+  socket.on('disconnect', () => {
+    console.log('the user has left, dawg');
+  });
 });
 
+io.on('connection', (socket) => {
+  socket.on('test', (test) => {
+    console.log(test)
+  })
+})
 http.listen(8154, () => {
   console.log('http listening on 8154');
 });
