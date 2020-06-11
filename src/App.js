@@ -13,6 +13,10 @@ import shipEraser from './helperFunctions/shipEraser';
 import checkPlayerReady from './helperFunctions/checkPlayerReady';
 import radarHit from './helperFunctions/radarHit';
 import radarPlacer from './helperFunctions/radarPlacer';
+import setOtherPlayerState from './helperFunctions/setOtherPlayerState';
+import turnX from './helperFunctions/turnX';
+import playerXReady from './helperFunctions/playerXReady';
+import playerXSetup from './helperFunctions/playerXSetup';
 
 
 class App extends React.Component {
@@ -22,10 +26,6 @@ class App extends React.Component {
       endpoint: 'http://localhost:8154/',
       playerID: 0,
       stage: 'setup',
-      playersReady: {
-        player1: false,
-        player2: false,
-      },
       player1Ready: false,
       player2Ready: false,
       ship: '',
@@ -57,6 +57,11 @@ class App extends React.Component {
     this.socket = socketIOClient(this.state.endpoint);
     this.socket.on('join', (resNum) => {
       this.setState({ playerID: resNum });
+    });
+    this.socket.on('deploy', (state) => {
+      console.log(turnX(state))
+      this.setState(turnX(state));
+      this.setState(playerXReady(state));
     });
   }
 
@@ -124,25 +129,20 @@ class App extends React.Component {
     }
   }
 
-  handleDeploy(e) {
+  async handleDeploy(e) {
     e.preventDefault();
     const { turn, turn1, turn2, playerID, player1Setup, player2Setup, playersReady } = this.state;
     const currPlayerReady = playerID === 1 ? 'player1Ready' : 'player2Ready';
     const currSetup = playerID === 1 ? player1Setup : player2Setup;
     const ready = checkPlayerReady(currSetup) ? true : false;
     if (ready) {
-      console.log('here')
-      this.setState({
+     await this.setState({
         [currPlayerReady]: true,
         stage: 'player ready'
        });
     }
-    // if (turn === 1) {
-    //   this.setState({ turn: 2 });
-    // } else if (turn === 2) {
-    //   this.setState({ stage: 'battle', turn: 1 });
-    // }
-    this.socket.emit('deploy', 'word')
+
+    this.socket.emit('deploy', this.state)
   }
 
   switch(e) {
