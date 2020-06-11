@@ -23,6 +23,10 @@ class App extends React.Component {
       endpointTest: 'http://localhost:8154/test',
       playerID: 0,
       stage: 'setup',
+      playerReady: {
+        player1: false,
+        player2: false,
+      },
       ship: '',
       direction: 'down',
       turn: 1,
@@ -126,7 +130,7 @@ class App extends React.Component {
     } else if (turn === 2) {
       this.setState({ stage: 'battle', turn: 1 });
     }
-    this.socket.emit('deploy', )
+    this.socket.emit('deploy', 'word')
   }
 
   switch(e) {
@@ -143,7 +147,7 @@ class App extends React.Component {
 
 
   render() {
-    const { turn, stage, ship, direction, turn1, turn2 } = this.state;
+    const { playerID, turn, stage, ship, direction, turn1, turn2 } = this.state;
     const currTurn = turn === 1 ? turn1 : turn2;
     const otherTurn = turn === 2 ? turn1 : turn2;
     const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
@@ -158,7 +162,7 @@ class App extends React.Component {
         </div>
         <div className="board-container">
           <div className="home-board">
-            <Board currTurn={currTurn} otherTurn={otherTurn} stage={stage} handleClick={this.handleClickSetup} />
+              <Board currTurn={currTurn} /*otherTurn={otherTurn}*/ stage={stage} handleClick={this.handleClickSetup} />
           </div>
           <Conditional
             ship={ship}
