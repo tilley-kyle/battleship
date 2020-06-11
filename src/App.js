@@ -32,11 +32,13 @@ class App extends React.Component {
         board: [[], [], [], [], [], [], [], [], [], []],
         radar: [[], [], [], [], [], [], [], [], [], []],
         hits: 0,
+        ready: false,
       },
       turn2: {
         board: [[], [], [], [], [], [], [], [], [], []],
         radar: [[], [], [], [], [], [], [], [], [], []],
         hits: 0,
+        ready: false,
       },
       scores: {
         player1: 0,
@@ -49,7 +51,6 @@ class App extends React.Component {
     this.handleDeploy = this.handleDeploy.bind(this);
     this.socket = socketIOClient(this.state.endpoint);
     this.socket.on('join', (resNum) => {
-      console.log(resNum)
       this.setState({ playerID: resNum });
     });
   }
@@ -125,6 +126,7 @@ class App extends React.Component {
     } else if (turn === 2) {
       this.setState({ stage: 'battle', turn: 1 });
     }
+    this.socket.emit('deploy', )
   }
 
   switch(e) {
