@@ -17,6 +17,7 @@ app.get('/start', getScores);
 
 app.put('/result', putScores);
 
+let playerCount = 0;
 let  playersController = {
   player1: false,
   player2: false,
@@ -24,18 +25,20 @@ let  playersController = {
 };
 
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  playerCount += 1;
+  console.log('a user connected, dawg. COUNT: ', playerCount);
   socket.on('test', (test) => {
-    console.log(test)
+    // console.log(test)
     socket.emit('test', 'hiya');
   });
   socket.emit('test', 'hiya');
   socket.on('disconnect', () => {
-    console.log('the user has left, dawg');
+    playerCount -= 1;
+    console.log('the user has left, dawg. COUNT: ', playerCount);
   });
 });
 
-const test = io.of('/test')
+const test = io.of('/test') //don't think this is being used
 test.on('connection', (socket) => {
   socket.on('test', (test) => {
     console.log('hi')
