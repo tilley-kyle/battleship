@@ -26,6 +26,8 @@ class App extends React.Component {
         player1: false,
         player2: false,
       },
+      player1Ready: false,
+      player2Ready: false,
       ship: '',
       direction: 'down',
       turn: 1,
@@ -109,7 +111,7 @@ class App extends React.Component {
     const { ship, player1Setup, player2Setup, turn, turn1, turn2, playerID } = this.state;
     const currTurn = playerID === 1 ? turn1 : turn2;
     const currTurnObj = playerID === 1 ? 'turn1' : 'turn2';
-    const currSetup = playerID === 1 ? player1Setup: player2Setup;
+    const currSetup = playerID === 1 ? player1Setup : player2Setup;
     if (vertCheck(currTurn.board, ship, coords)) {
       currSetup[ship] = true;
       currTurn.board = shipPlacer(currTurn.board, ship, coords);
@@ -118,20 +120,22 @@ class App extends React.Component {
       alert('invalid placement');
     }
     if (checkPlayerReady(currSetup)) {
-      this.setState({ stage: 'ready1' })
+      this.setState({ stage: 'ready' })
     }
   }
 
   handleDeploy(e) {
     e.preventDefault();
     const { turn, turn1, turn2, playerID, player1Setup, player2Setup, playersReady } = this.state;
-    const currPlayer = playerID === 1 ? 'player1' : 'player2';
+    const currPlayerReady = playerID === 1 ? 'player1Ready' : 'player2Ready';
     const currSetup = playerID === 1 ? player1Setup : player2Setup;
     const ready = checkPlayerReady(currSetup) ? true : false;
     if (ready) {
       console.log('here')
-      playersReady[currPlayer] = true;
-      this.setState(playersReady);
+      this.setState({
+        [currPlayerReady]: true,
+        stage: 'player ready'
+       });
     }
     // if (turn === 1) {
     //   this.setState({ turn: 2 });
@@ -171,7 +175,7 @@ class App extends React.Component {
         </div>
         <div className="board-container">
           <div className="home-board">
-              <Board currTurn={playerBoard} /*otherTurn={otherTurn}*/ stage={stage} handleClick={this.handleClickSetup} />
+            <Board currTurn={playerBoard} /*otherTurn={otherTurn}*/ stage={stage} handleClick={this.handleClickSetup} />
           </div>
           <Conditional
             ship={ship}
