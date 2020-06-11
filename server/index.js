@@ -29,9 +29,9 @@ io.on('connection', (socket) => {
   console.log('a user connected, dawg. COUNT: ', playerCount);
   socket.on('test', (test) => {
     // console.log(test)
-    socket.emit('test', 'hiya');
+    socket.broadcast.emit('test', 'hiya');
   });
-  socket.emit('test', 'hiya');
+  // socket.broadcast.emit('test', 'hiya');
   socket.on('disconnect', () => {
     playerCount -= 1;
     console.log('the user has left, dawg. COUNT: ', playerCount);
