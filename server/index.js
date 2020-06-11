@@ -18,10 +18,6 @@ app.get('/start', getScores);
 app.put('/result', putScores);
 
 let playerCount = 0;
-let  playersController = {
-  player1: false,
-  player2: false,
-};
 
 io.on('connection', (socket) => {
   playerCount += 1;

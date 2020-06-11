@@ -1,7 +1,6 @@
 import React from 'react';
 import './stylesheet.css';
 import axios from 'axios';
-// import { Socket } from 'react-socket-io';
 import socketIOClient from 'socket.io-client';
 
 import Board from './components/Board';
@@ -56,9 +55,12 @@ class App extends React.Component {
     this.socket.on('join', (resNum) => {
       this.setState({ playerID: resNum });
     });
-    this.socket.on('deploy', (state) => {
-      this.setState(turnX(state, this.state.playerID));
-      this.setState(playerXReady(state, this.state.playerID));
+    this.socket.on('deploy', async (state) => {
+      await this.setState(turnX(state, this.state.playerID));
+      await this.setState(playerXReady(state, this.state.playerID));
+      if (this.state.player1Ready && this.state.player2Ready) {
+        console.log('heeyy')
+      }
     });
   }
 
@@ -138,7 +140,6 @@ class App extends React.Component {
         stage: 'player ready'
        });
     }
-
     this.socket.emit('deploy', this.state)
   }
 
