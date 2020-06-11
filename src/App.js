@@ -107,9 +107,9 @@ class App extends React.Component {
   }
 
   handleClickSetup(coords) {
-    const { ship, player1Setup, turn, turn1, turn2 } = this.state;
-    const currTurn = turn === 1 ? turn1 : turn2;
-    const currSetup = player1Setup;
+    const { ship, player1Setup, player2Setup, turn, turn1, turn2, playerID } = this.state;
+    const currTurn = playerID === 1 ? turn1 : turn2;
+    const currSetup = playerID === 1 ? player1Setup: player2Setup;
     if (vertCheck(currTurn.board, ship, coords)) {
       currSetup[ship] = true;
       currTurn.board = shipPlacer(currTurn.board, ship, coords);
@@ -117,7 +117,7 @@ class App extends React.Component {
     } else {
       alert('invalid placement');
     }
-    if (checkPlayerReady(player1Setup)) {
+    if (checkPlayerReady(currSetup)) {
       this.setState({ stage: 'ready1' })
     }
   }
@@ -150,19 +150,20 @@ class App extends React.Component {
     const { playerID, turn, stage, ship, direction, turn1, turn2 } = this.state;
     const currTurn = turn === 1 ? turn1 : turn2;
     const otherTurn = turn === 2 ? turn1 : turn2;
+    const playerBoard = playerID === 1 ? turn1 : turn2;
     const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
     return (
       <div className="total-container">
         <div className="heading-container">
           <h2 className="title">BattleShip: The Game... Onlinified</h2>
           <div className="board-labels">
-            <div className="label-title">Admiral {turn}'s Fleet</div>
+            <div className="label-title">Admiral {playerID}'s Fleet</div>
             <div className="label-title">{headerRight}</div>
           </div>
         </div>
         <div className="board-container">
           <div className="home-board">
-              <Board currTurn={currTurn} /*otherTurn={otherTurn}*/ stage={stage} handleClick={this.handleClickSetup} />
+              <Board currTurn={playerBoard} /*otherTurn={otherTurn}*/ stage={stage} handleClick={this.handleClickSetup} />
           </div>
           <Conditional
             ship={ship}
