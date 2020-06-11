@@ -21,17 +21,13 @@ let playerCount = 0;
 let  playersController = {
   player1: false,
   player2: false,
-  playerID: false,
 };
 
 io.on('connection', (socket) => {
   playerCount += 1;
   console.log('a user connected, dawg. COUNT: ', playerCount);
-  socket.on('test', (test) => {
-    // console.log(test)
-    socket.broadcast.emit('test', 'hiya');
-  });
-  // socket.broadcast.emit('test', 'hiya');
+  
+  socket.emit('join', playerCount)
   socket.on('disconnect', () => {
     playerCount -= 1;
     console.log('the user has left, dawg. COUNT: ', playerCount);
