@@ -17,6 +17,12 @@ app.get('/start', getScores);
 
 app.put('/result', putScores);
 
+let  playersController = {
+  player1: false,
+  player2: false,
+  playerID: false,
+};
+
 io.on('connection', (socket) => {
   console.log('a user connected');
   socket.on('test', (test) => {
@@ -26,6 +32,14 @@ io.on('connection', (socket) => {
     console.log('the user has left, dawg');
   });
 });
+
+const test = io.of('/test')
+test.on('connection', (socket) => {
+  socket.on('test', (test) => {
+    console.log('hi')
+  })
+
+})
 
 
 

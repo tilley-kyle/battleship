@@ -20,11 +20,12 @@ class App extends React.Component {
     super(props);
     this.state = {
       endpoint: 'http://localhost:8154/',
-      players: {
+      endpointTest: 'http://localhost:8154/test',
+      playersController: {
         player1: false,
         player2: false,
+        playerID: false,
       },
-      playerID: '',
       stage: 'setup',
       ship: '',
       direction: 'down',
@@ -46,21 +47,21 @@ class App extends React.Component {
         player2: 0,
       },
     };
-    const socket = socketIOClient(this.state.endpoint);
     this.handleClickRadar = this.handleClickRadar.bind(this);
     this.shipSelector = this.shipSelector.bind(this);
     this.handleClickSetup = this.handleClickSetup.bind(this);
     this.handleDeploy = this.handleDeploy.bind(this);
+    this.socket = socketIOClient(this.state.endpoint);
   }
 
   componentDidMount() {
-    const { players } = this.state;
+    const { playersController } = this.state;
     axios.get('/start')
       .then((res) => {
       })
-    if (!players.player1) {
-      players.player1 = true;
-      this.setState(players);
+    if (!playersController.player1) {
+      playersController.player1 = true;
+      this.setState(playersController);
       this.setState({ playerID: 1 });
     }
   }
@@ -139,8 +140,9 @@ class App extends React.Component {
     } else {
       this.setState({ stage: 'setup' });
     }
-    const socket = socketIOClient(this.state.endpoint);
-    socket.emit('test', this.state.turn);
+    // const socket = socketIOClient(this.state.endpoint);
+    // const test = socketIOClient(this.state.endpointTest);
+    this.socket.emit('test', this.state.turn);
   }
 
 
