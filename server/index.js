@@ -40,7 +40,6 @@ test.on('connection', (socket) => {
   socket.on('test', (test) => {
     console.log('hi')
   })
-
 })
 
 
