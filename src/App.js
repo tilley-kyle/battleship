@@ -52,6 +52,9 @@ class App extends React.Component {
     this.handleClickSetup = this.handleClickSetup.bind(this);
     this.handleDeploy = this.handleDeploy.bind(this);
     this.socket = socketIOClient(this.state.endpoint);
+    this.socket.on('test', (stuff) => {
+      console.log(stuff)
+    })
   }
 
   componentDidMount() {

@@ -27,7 +27,9 @@ io.on('connection', (socket) => {
   console.log('a user connected');
   socket.on('test', (test) => {
     console.log(test)
+    socket.emit('test', 'hiya');
   });
+  socket.emit('test', 'hiya');
   socket.on('disconnect', () => {
     console.log('the user has left, dawg');
   });
