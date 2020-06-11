@@ -20,7 +20,6 @@ class App extends React.Component {
     super(props);
     this.state = {
       endpoint: 'http://localhost:8154/',
-      endpointTest: 'http://localhost:8154/test',
       playerID: 0,
       stage: 'setup',
       playerReady: {
@@ -109,11 +108,13 @@ class App extends React.Component {
   handleClickSetup(coords) {
     const { ship, player1Setup, player2Setup, turn, turn1, turn2, playerID } = this.state;
     const currTurn = playerID === 1 ? turn1 : turn2;
+    const currTurnObj = playerID === 1 ? 'turn1' : 'turn2';
     const currSetup = playerID === 1 ? player1Setup: player2Setup;
     if (vertCheck(currTurn.board, ship, coords)) {
       currSetup[ship] = true;
       currTurn.board = shipPlacer(currTurn.board, ship, coords);
-      this.setState(currTurn);
+      console.log(currTurn)
+      this.setState({ [currTurnObj]: currTurn });
     } else {
       alert('invalid placement');
     }
@@ -124,12 +125,19 @@ class App extends React.Component {
 
   handleDeploy(e) {
     e.preventDefault();
-    const { turn } = this.state;
-    if (turn === 1) {
-      this.setState({ turn: 2 });
-    } else if (turn === 2) {
-      this.setState({ stage: 'battle', turn: 1 });
+    const { turn, turn1, turn2, playerID, player1Setup, player2Setup, playersReady } = this.state;
+    const currPlayer = playerID === 1 ? 'player1' : 'player2';
+    const currSetup = playerID === 1 ? player1Setup : player2Setup;
+    const ready = checkPlayerReady(currSetup) ? true : false;
+    if (ready) {
+      playersReady[currPlayer] = true;
+      this.setState(playersReady);
     }
+    // if (turn === 1) {
+    //   this.setState({ turn: 2 });
+    // } else if (turn === 2) {
+    //   this.setState({ stage: 'battle', turn: 1 });
+    // }
     this.socket.emit('deploy', 'word')
   }
 
