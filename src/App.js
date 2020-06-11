@@ -22,7 +22,7 @@ class App extends React.Component {
       endpoint: 'http://localhost:8154/',
       playerID: 0,
       stage: 'setup',
-      playerReady: {
+      playersReady: {
         player1: false,
         player2: false,
       },
@@ -113,7 +113,6 @@ class App extends React.Component {
     if (vertCheck(currTurn.board, ship, coords)) {
       currSetup[ship] = true;
       currTurn.board = shipPlacer(currTurn.board, ship, coords);
-      console.log(currTurn)
       this.setState({ [currTurnObj]: currTurn });
     } else {
       alert('invalid placement');
@@ -130,6 +129,7 @@ class App extends React.Component {
     const currSetup = playerID === 1 ? player1Setup : player2Setup;
     const ready = checkPlayerReady(currSetup) ? true : false;
     if (ready) {
+      console.log('here')
       playersReady[currPlayer] = true;
       this.setState(playersReady);
     }
