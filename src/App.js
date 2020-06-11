@@ -13,10 +13,8 @@ import shipEraser from './helperFunctions/shipEraser';
 import checkPlayerReady from './helperFunctions/checkPlayerReady';
 import radarHit from './helperFunctions/radarHit';
 import radarPlacer from './helperFunctions/radarPlacer';
-import setOtherPlayerState from './helperFunctions/setOtherPlayerState';
 import turnX from './helperFunctions/turnX';
 import playerXReady from './helperFunctions/playerXReady';
-import playerXSetup from './helperFunctions/playerXSetup';
 
 
 class App extends React.Component {
@@ -59,9 +57,8 @@ class App extends React.Component {
       this.setState({ playerID: resNum });
     });
     this.socket.on('deploy', (state) => {
-      console.log(turnX(state))
-      this.setState(turnX(state));
-      this.setState(playerXReady(state));
+      this.setState(turnX(state, this.state.playerID));
+      this.setState(playerXReady(state, this.state.playerID));
     });
   }
 
