@@ -61,13 +61,26 @@ class App extends React.Component {
       await this.setState(turnX(state, this.state.playerID));
       await this.setState(playerXReady(state, this.state.playerID));
       if (this.state.player1Ready && this.state.player2Ready) {
-        console.log('heeyy')
         this.setState({ stage: 'battle' });
         this.socket.emit('battle', 'battle');
       }
     });
     this.socket.on('battle', (toBattle) => {
       this.setState({ stage: 'battle' });
+    });
+    this.socket.on('hit', (coords) => {
+      const newTurn = this.state.turn === 1 ? 2 : 1;
+      this.setState({ turn: newTurn });
+      console.log(coords);
+    });
+    this.socket.on('miss', (coords) => {
+      const newTurn = this.state.turn === 1 ? 2 : 1;
+      this.setState({ turn: newTurn });
+      console.log(coords);
+    });
+    this.socket.on('win', (winner) => {
+      this.setState({ stage: 'end' });
+      alert(`Admiral ${winner} Has Defeated You!`);
     });
   }
 
@@ -78,42 +91,51 @@ class App extends React.Component {
   }
 
   handleClickRadar(coords) {
-    const { turn, turn1, turn2 } = this.state;
+    const { turn, turn1, turn2, playerID } = this.state;
     const currTurn = turn === 1 ? turn1 : turn2;
     const otherTurn = turn === 2 ? turn1 : turn2;
     const turnNum = turn === 1 ? 2 : 1;
+    const currTurnObj = playerID === 1 ? 'turn1' : 'turn2';
     let { scores } = this.state;
+    if (playerID !== turn) {
+      alert(`It's not your turn!`);
+      return null;
+    }
     if (radarHit(coords, otherTurn.board)) {
       currTurn.radar = radarPlacer(coords, currTurn.radar, true);
       currTurn.hits = currTurn.hits += 1;
-      this.setState(currTurn);
+      this.setState({ [currTurnObj] : currTurn });
       setTimeout(() => {
-        this.setState({ turn: turnNum })
+        this.setState({ turn: turnNum });
+        this.socket.emit('hit', coords);
       }, 1000);
     } else {
       currTurn.radar = radarPlacer(coords, currTurn.radar, false);
-      this.setState(currTurn);
+      this.setState({ [currTurnObj] : currTurn });
       setTimeout(() => {
-        this.setState({ turn: turnNum })
+        this.setState({ turn: turnNum });
+        this.socket.emit('miss', coords);
       }, 1000);
     }
     if (currTurn.hits === 17) {
-      console.log(scores)
-      alert('Player 1 Wins!');
-      scores.player1 += 1;
+      setTimeout(() => {
+        alert('You Are Victorious!');
+      }, 500);
+      this.setState({ stage: 'end' })
+      this.socket.emit('win', playerID);
       axios.put('http://127.0.0.1:8153/result', scores);
     }
   }
 
   shipSelector(e) {
     e.preventDefault();
-    const { player1Setup, turn, turn1, turn2 } = this.state;
-    const currTurn = turn === 1 ? turn1 : turn2;
-    const currSetup = player1Setup;
-    if (player1Setup[e.target.id] === true) {
+    const { player1Setup,  player2Setup, playerID, turn1, turn2 } = this.state;
+    const currTurn = playerID === 1 ? turn1 : turn2;
+    const currSetup = playerID === 1 ? player1Setup : player2Setup;
+    if (currSetup[e.target.id] === true) {
       shipEraser(currTurn.board, e.target.id);
       currSetup[e.target.id] = false;
-      this.setState({ player1Setup: currSetup });
+      this.setState({ [currSetup]: currSetup });
     }
     this.setState({ ship: e.target.id });
   }
@@ -126,7 +148,7 @@ class App extends React.Component {
     if (directionalChecker(currTurn.board, ship, coords, direction)) {
       currSetup[ship] = true;
       currTurn.board = shipPlacer(currTurn.board, ship, coords, direction);
-      this.setState({ [currTurnObj]: currTurn });
+      this.setState({ [currTurnObj]: currTurn, ship: '' });
     } else {
       alert('invalid placement');
     }
@@ -191,7 +213,7 @@ class App extends React.Component {
             ship={ship}
             direction={direction}
             stage={stage}
-            currTurn={currTurn}
+            currTurn={playerBoard}
             shipSelector={this.shipSelector}
             handleDeploy={this.handleDeploy}
             handleClick={this.handleClickRadar}
