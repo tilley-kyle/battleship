@@ -7,6 +7,7 @@ const radarHit = (coords, board, hits) => {
   if (board[y][x]) {
     if (hits.indexOf(coords) === -1) {
       hits.push(coords);
+      console.log(hits)
       return hits;
     }
     return true;

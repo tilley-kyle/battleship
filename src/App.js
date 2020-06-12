@@ -102,9 +102,12 @@ class App extends React.Component {
       alert(`It's not your turn!`);
       return null;
     }
-    if (radarHit(coords, otherTurn.board, hitsArr) === true) return null;
-    if (radarHit(coords, otherTurn.board, hitsArr)) {
-      console.log('here')
+    const radarHitVar = radarHit(coords, otherTurn.board, hitsArr);
+    if (radarHitVar === true) {
+      console.log('hit already')
+      return null;
+    } else if (Array.isArray(radarHitVar)) {
+      console.log('not yet hit')
       currTurn.radar = radarPlacer(coords, currTurn.radar, true);
       currTurn.hits = currTurn.hits += 1;
       this.setState({ [currTurnObj] : currTurn });
@@ -116,6 +119,7 @@ class App extends React.Component {
         this.socket.emit('hit', coords);
       }, 1000);
     } else {
+      console.log('swing and a miss')
       currTurn.radar = radarPlacer(coords, currTurn.radar, false);
       this.setState({ [currTurnObj] : currTurn });
       setTimeout(() => {
