@@ -160,8 +160,7 @@ class App extends React.Component {
     this.socket.emit('test', this.state.turn);
   }
 
-  handleDown(key, e) {
-    // e.preventDefault();
+  handleDown(key) {
     console.log(key)
   }
 
@@ -172,10 +171,10 @@ class App extends React.Component {
     const playerBoard = playerID === 1 ? turn1 : turn2;
     const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
     return (
-      <div onKeyDown={(e) => this.handleDown(e)} className="total-container">
+      <div className="total-container">
         <KeyboardEventHandler
           handleKeys={['down', 'left', 'right', 'up']}
-          onKeyEvent={(key, e) => this.handleDown(key,e)}
+          onKeyEvent={(key) => this.handleDown(key)}
           />
         <div className="heading-container">
           <h2 className="title">BattleShip: The Game... Onlinified</h2>
