@@ -4,6 +4,7 @@ import axios from 'axios';
 import socketIOClient from 'socket.io-client';
 
 import Board from './components/Board';
+import BoardHeader from './components/BoardHeader';
 import Conditional from './components/Conditional';
 
 import vertCheck from './helperFunctions/vertCheck';
@@ -172,7 +173,7 @@ class App extends React.Component {
         <div className="heading-container">
           <h2 className="title">BattleShip: The Game... Onlinified</h2>
           <div className="board-labels">
-            <div className="label-title">Admiral {playerID}'s Fleet</div>
+            <BoardHeader stage={stage} turn={turn} playerID={playerID} />
             <div className="label-title">{headerRight}</div>
           </div>
         </div>
