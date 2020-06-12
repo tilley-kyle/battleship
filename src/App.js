@@ -60,7 +60,12 @@ class App extends React.Component {
       await this.setState(playerXReady(state, this.state.playerID));
       if (this.state.player1Ready && this.state.player2Ready) {
         console.log('heeyy')
+        this.setState({ stage: 'battle' });
+        this.socket.emit('battle', 'battle');
       }
+    });
+    this.socket.on('battle', (toBattle) => {
+      this.setState({ stage: 'battle' });
     });
   }
 
