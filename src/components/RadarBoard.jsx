@@ -1,7 +1,7 @@
 import React from 'react';
 import RadarTile from './RadarTile.jsx';
 
-const RadarBoard = ({ handleClick, radar, stage }) => {
+const RadarBoard = ({ handleClick, radar }) => {
     const counter = [];
     for (let i = 0; i < 100; i += 1) {
       counter.push(i);

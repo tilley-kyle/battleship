@@ -1,7 +1,7 @@
 import React from 'react';
 import Tile from './Tile.jsx';
 
-const Board = ({ handleClick, stage, currTurn }) => {
+const Board = ({ handleClick, currTurn }) => {
     const counter = [];
     for (let i = 0; i < 100; i += 1) {
       counter.push(i);

@@ -118,7 +118,7 @@ class App extends React.Component {
   }
 
   handleClickSetup(coords) {
-    const { ship, player1Setup, player2Setup, turn, turn1, turn2, playerID } = this.state;
+    const { ship, player1Setup, player2Setup, turn1, turn2, playerID } = this.state;
     const currTurn = playerID === 1 ? turn1 : turn2;
     const currTurnObj = playerID === 1 ? 'turn1' : 'turn2';
     const currSetup = playerID === 1 ? player1Setup : player2Setup;
@@ -136,7 +136,7 @@ class App extends React.Component {
 
   async handleDeploy(e) {
     e.preventDefault();
-    const { turn, turn1, turn2, playerID, player1Setup, player2Setup, playersReady } = this.state;
+    const { playerID, player1Setup, player2Setup } = this.state;
     const currPlayerReady = playerID === 1 ? 'player1Ready' : 'player2Ready';
     const currSetup = playerID === 1 ? player1Setup : player2Setup;
     const ready = checkPlayerReady(currSetup) ? true : false;
@@ -156,8 +156,6 @@ class App extends React.Component {
     } else {
       this.setState({ stage: 'setup' });
     }
-    // const socket = socketIOClient(this.state.endpoint);
-    // const test = socketIOClient(this.state.endpointTest);
     this.socket.emit('test', this.state.turn);
   }
 
@@ -165,7 +163,6 @@ class App extends React.Component {
   render() {
     const { playerID, turn, stage, ship, direction, turn1, turn2 } = this.state;
     const currTurn = turn === 1 ? turn1 : turn2;
-    const otherTurn = turn === 2 ? turn1 : turn2;
     const playerBoard = playerID === 1 ? turn1 : turn2;
     const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
     return (
@@ -179,14 +176,13 @@ class App extends React.Component {
         </div>
         <div className="board-container">
           <div className="home-board">
-            <Board currTurn={playerBoard} /*otherTurn={otherTurn}*/ stage={stage} handleClick={this.handleClickSetup} />
+            <Board currTurn={playerBoard} stage={stage} handleClick={this.handleClickSetup} />
           </div>
           <Conditional
             ship={ship}
             direction={direction}
             stage={stage}
             currTurn={currTurn}
-            otherTurn={otherTurn}
             shipSelector={this.shipSelector}
             handleDeploy={this.handleDeploy}
             handleClick={this.handleClickRadar}
