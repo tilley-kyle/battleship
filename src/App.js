@@ -161,7 +161,7 @@ class App extends React.Component {
   }
 
   handleDown(key) {
-    console.log(key)
+    this.setState({ direction: key });
   }
 
 
