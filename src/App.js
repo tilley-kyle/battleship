@@ -78,6 +78,10 @@ class App extends React.Component {
       this.setState({ turn: newTurn });
       console.log(coords);
     });
+    this.socket.on('win', (winner) => {
+      this.setState({ stage: 'end' });
+      alert(`Admiral ${winner} Has Defeated You!`);
+    });
   }
 
   componentDidMount() {
@@ -114,9 +118,11 @@ class App extends React.Component {
       }, 1000);
     }
     if (currTurn.hits === 17) {
-      console.log(scores)
-      alert('Player 1 Wins!');
-      scores.player1 += 1;
+      setTimeout(() => {
+        alert('You Are Victorious!');
+      }, 500);
+      this.setState({ stage: 'end' })
+      this.socket.emit('win', playerID);
       axios.put('http://127.0.0.1:8153/result', scores);
     }
   }

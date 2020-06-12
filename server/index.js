@@ -37,6 +37,10 @@ io.on('connection', (socket) => {
 
   socket.on('miss', (missCoord) => {
     socket.broadcast.emit('miss', missCoord)
+  });
+
+  socket.on('win', (winner) => {
+    socket.broadcast.emit('win', winner)
   })
 
   socket.on('disconnect', () => {
