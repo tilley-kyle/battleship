@@ -29,17 +29,17 @@
 >             water that is your fleet? Well log in Admiral, BattleShip: The Board Game... Onlinified awaits!
 
 > ## Know Bugs
-> - Hits can be counted multiple times
-> - - A user can keep clicking on the same hit location and rack up their score to win
+> - ~~Hits can be counted multiple times~~
+> - - ~~A user can keep clicking on the same hit location and rack up their score to win~~
 > - on game stage set to 'over' the radar reverts to the deployment console
 > - - Should stay on the radar screen
 > - - Eventually should have a pop-up to play again and reset state
-> - Random problem on setup that one of the players won't be able to be sent to 'player ready'
-> - - Haven't been able to replicate on command yet
-> - - One of the players states will be changed to 'ready' when all of their pieces are out but
-> - -   on clicking the 'deploy the flee' button they aren't moved to 'player ready' which
-> - -   prevents the game moving to the 'battle' stage
-> - Potential solve: sometimes the functoin to mark if a ship was place would put a ' : true' into
+> - ~~Random problem on setup that one of the players won't be able to be sent to 'player ready'~~
+> - - ~~Haven't been able to replicate on command yet!!
+> - - ~~One of the players states will be changed to 'ready' when all of their pieces are out but~~
+> - -   ~~on clicking the 'deploy the flee' button they aren't moved to 'player ready' which~~
+> - -   ~~prevents the game moving to the 'battle' stage~~
+> - - Potential solve: sometimes the functoin to mark if a ship was place would put a ' : true' into
 > - - the object tracking what ship has been place AS WELL as 'ship: ture'. This would result in a
 > - - tally of 6 ships, not 5 which is what the checkPlayerReady function was looking for, so change
 > - - === 5 to >= 5
