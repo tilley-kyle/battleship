@@ -2,6 +2,7 @@ import React from 'react';
 import './stylesheet.css';
 import axios from 'axios';
 import socketIOClient from 'socket.io-client';
+import KeyboardEventHandler from 'react-keyboard-event-handler';
 
 import Board from './components/Board';
 import BoardHeader from './components/BoardHeader';
@@ -159,9 +160,9 @@ class App extends React.Component {
     this.socket.emit('test', this.state.turn);
   }
 
-  handleDown(e) {
-    e.preventDefault();
-    console.log('hi')
+  handleDown(key, e) {
+    // e.preventDefault();
+    console.log(key)
   }
 
 
@@ -172,6 +173,10 @@ class App extends React.Component {
     const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
     return (
       <div onKeyDown={(e) => this.handleDown(e)} className="total-container">
+        <KeyboardEventHandler
+          handleKeys={['down', 'left', 'right', 'up']}
+          onKeyEvent={(key, e) => this.handleDown(key,e)}
+          />
         <div className="heading-container">
           <h2 className="title">BattleShip: The Game... Onlinified</h2>
           <div className="board-labels">
