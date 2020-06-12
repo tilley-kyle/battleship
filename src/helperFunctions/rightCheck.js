@@ -2,7 +2,7 @@ import xCoord from './xCoord';
 import yCoord from './yCoord';
 
 
-const vertCheck = (board, ship, coords) => {
+const rightCheck = (board, ship, coords) => {
   const shipSizes = {
     Carrier: 5,
     Battleship: 4,
@@ -12,10 +12,10 @@ const vertCheck = (board, ship, coords) => {
   }
   const length = shipSizes[ship];
   for (let i = 0; i < length; i += 1) {
-    if (yCoord(coords) + i > 9) {
+    if (xCoord(coords) + i > 9) {
       return null;
     }
-    if (!board[yCoord(coords) + i][xCoord(coords)] ) {
+    if (!board[yCoord(coords)][xCoord(coords) + 1] ) {
       continue;
     } else {
       return null;
@@ -24,4 +24,4 @@ const vertCheck = (board, ship, coords) => {
   return true;
 }
 
-export default vertCheck;
+export default rightCheck;

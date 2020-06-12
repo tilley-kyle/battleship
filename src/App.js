@@ -8,7 +8,7 @@ import Board from './components/Board';
 import BoardHeader from './components/BoardHeader';
 import Conditional from './components/Conditional';
 
-import vertCheck from './helperFunctions/vertCheck';
+import directionalChecker from './helperFunctions/directionalChecker';
 import shipPlacer from './helperFunctions/shipPlacer';
 import shipEraser from './helperFunctions/shipEraser';
 import checkPlayerReady from './helperFunctions/checkPlayerReady';
@@ -119,13 +119,13 @@ class App extends React.Component {
   }
 
   handleClickSetup(coords) {
-    const { ship, player1Setup, player2Setup, turn1, turn2, playerID } = this.state;
+    const { ship, player1Setup, player2Setup, turn1, turn2, playerID, direction } = this.state;
     const currTurn = playerID === 1 ? turn1 : turn2;
     const currTurnObj = playerID === 1 ? 'turn1' : 'turn2';
     const currSetup = playerID === 1 ? player1Setup : player2Setup;
-    if (vertCheck(currTurn.board, ship, coords)) {
+    if (directionalChecker(currTurn.board, ship, coords, direction)) {
       currSetup[ship] = true;
-      currTurn.board = shipPlacer(currTurn.board, ship, coords);
+      currTurn.board = shipPlacer(currTurn.board, ship, coords, direction);
       this.setState({ [currTurnObj]: currTurn });
     } else {
       alert('invalid placement');
