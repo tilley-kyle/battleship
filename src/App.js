@@ -1,8 +1,10 @@
 import React from 'react';
 import './stylesheet.css';
 import axios from 'axios';
+import socketIOClient from 'socket.io-client';
 
 import Board from './components/Board';
+import BoardHeader from './components/BoardHeader';
 import Conditional from './components/Conditional';
 
 import vertCheck from './helperFunctions/vertCheck';
@@ -11,12 +13,19 @@ import shipEraser from './helperFunctions/shipEraser';
 import checkPlayerReady from './helperFunctions/checkPlayerReady';
 import radarHit from './helperFunctions/radarHit';
 import radarPlacer from './helperFunctions/radarPlacer';
+import turnX from './helperFunctions/turnX';
+import playerXReady from './helperFunctions/playerXReady';
+
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      endpoint: 'http://localhost:8154/',
+      playerID: 0,
       stage: 'setup',
+      player1Ready: false,
+      player2Ready: false,
       ship: '',
       direction: 'down',
       turn: 1,
@@ -26,11 +35,13 @@ class App extends React.Component {
         board: [[], [], [], [], [], [], [], [], [], []],
         radar: [[], [], [], [], [], [], [], [], [], []],
         hits: 0,
+        ready: false,
       },
       turn2: {
         board: [[], [], [], [], [], [], [], [], [], []],
         radar: [[], [], [], [], [], [], [], [], [], []],
         hits: 0,
+        ready: false,
       },
       scores: {
         player1: 0,
@@ -41,12 +52,27 @@ class App extends React.Component {
     this.shipSelector = this.shipSelector.bind(this);
     this.handleClickSetup = this.handleClickSetup.bind(this);
     this.handleDeploy = this.handleDeploy.bind(this);
+    this.socket = socketIOClient(this.state.endpoint);
+    this.socket.on('join', (resNum) => {
+      this.setState({ playerID: resNum });
+    });
+    this.socket.on('deploy', async (state) => {
+      await this.setState(turnX(state, this.state.playerID));
+      await this.setState(playerXReady(state, this.state.playerID));
+      if (this.state.player1Ready && this.state.player2Ready) {
+        console.log('heeyy')
+        this.setState({ stage: 'battle' });
+        this.socket.emit('battle', 'battle');
+      }
+    });
+    this.socket.on('battle', (toBattle) => {
+      this.setState({ stage: 'battle' });
+    });
   }
 
   componentDidMount() {
     axios.get('/start')
       .then((res) => {
-        console.log(res)
       })
   }
 
@@ -59,13 +85,13 @@ class App extends React.Component {
     if (radarHit(coords, otherTurn.board)) {
       currTurn.radar = radarPlacer(coords, currTurn.radar, true);
       currTurn.hits = currTurn.hits += 1;
-      this.setState( currTurn );
+      this.setState(currTurn);
       setTimeout(() => {
         this.setState({ turn: turnNum })
       }, 1000);
     } else {
       currTurn.radar = radarPlacer(coords, currTurn.radar, false);
-      this.setState( currTurn );
+      this.setState(currTurn);
       setTimeout(() => {
         this.setState({ turn: turnNum })
       }, 1000);
@@ -92,29 +118,35 @@ class App extends React.Component {
   }
 
   handleClickSetup(coords) {
-    const { ship, player1Setup, turn, turn1, turn2 } = this.state;
-    const currTurn = turn === 1 ? turn1 : turn2;
-    const currSetup = player1Setup;
+    const { ship, player1Setup, player2Setup, turn, turn1, turn2, playerID } = this.state;
+    const currTurn = playerID === 1 ? turn1 : turn2;
+    const currTurnObj = playerID === 1 ? 'turn1' : 'turn2';
+    const currSetup = playerID === 1 ? player1Setup : player2Setup;
     if (vertCheck(currTurn.board, ship, coords)) {
       currSetup[ship] = true;
       currTurn.board = shipPlacer(currTurn.board, ship, coords);
-      this.setState( currTurn );
+      this.setState({ [currTurnObj]: currTurn });
     } else {
       alert('invalid placement');
     }
-    if (checkPlayerReady(player1Setup)) {
-      this.setState({ stage: 'ready1' })
+    if (checkPlayerReady(currSetup)) {
+      this.setState({ stage: 'ready' })
     }
   }
 
-  handleDeploy(e) {
+  async handleDeploy(e) {
     e.preventDefault();
-    const { turn } = this.state;
-    if (turn === 1) {
-      this.setState({ turn: 2 });
-    } else if (turn === 2) {
-      this.setState({ stage: 'battle', turn: 1 });
+    const { turn, turn1, turn2, playerID, player1Setup, player2Setup, playersReady } = this.state;
+    const currPlayerReady = playerID === 1 ? 'player1Ready' : 'player2Ready';
+    const currSetup = playerID === 1 ? player1Setup : player2Setup;
+    const ready = checkPlayerReady(currSetup) ? true : false;
+    if (ready) {
+     await this.setState({
+        [currPlayerReady]: true,
+        stage: 'player ready'
+       });
     }
+    this.socket.emit('deploy', this.state)
   }
 
   switch(e) {
@@ -124,26 +156,30 @@ class App extends React.Component {
     } else {
       this.setState({ stage: 'setup' });
     }
+    // const socket = socketIOClient(this.state.endpoint);
+    // const test = socketIOClient(this.state.endpointTest);
+    this.socket.emit('test', this.state.turn);
   }
 
 
   render() {
-    const { turn, stage, ship, direction, turn1, turn2 } = this.state;
+    const { playerID, turn, stage, ship, direction, turn1, turn2 } = this.state;
     const currTurn = turn === 1 ? turn1 : turn2;
     const otherTurn = turn === 2 ? turn1 : turn2;
+    const playerBoard = playerID === 1 ? turn1 : turn2;
     const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
     return (
       <div className="total-container">
         <div className="heading-container">
           <h2 className="title">BattleShip: The Game... Onlinified</h2>
           <div className="board-labels">
-            <div className="label-title">Admiral {turn}'s Fleet</div>
+            <BoardHeader stage={stage} turn={turn} playerID={playerID} />
             <div className="label-title">{headerRight}</div>
           </div>
         </div>
         <div className="board-container">
           <div className="home-board">
-            <Board currTurn={currTurn} otherTurn={otherTurn} stage={stage} handleClick={this.handleClickSetup} />
+            <Board currTurn={playerBoard} /*otherTurn={otherTurn}*/ stage={stage} handleClick={this.handleClickSetup} />
           </div>
           <Conditional
             ship={ship}

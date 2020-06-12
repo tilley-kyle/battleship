@@ -3,7 +3,6 @@
 }
 
 .total-container {
-  /* background-image: url('./ussiowa.jpg'); */
  display: grid;
  grid-template-rows: 15vmin 80vmin;
  min-width: 850px;
