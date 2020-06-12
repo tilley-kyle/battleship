@@ -110,22 +110,18 @@ class App extends React.Component {
       console.log('not yet hit')
       currTurn.radar = radarPlacer(coords, currTurn.radar, true);
       currTurn.hits = currTurn.hits += 1;
-      this.setState({ [currTurnObj] : currTurn });
-      setTimeout(() => {
-        this.setState({
-          turn: turnNum,
-          hitsArr: [...hitsArr, coords],
-         });
-        this.socket.emit('hit', coords);
-      }, 1000);
+      this.setState({ [currTurnObj]: currTurn });
+      this.setState({
+        turn: turnNum,
+        hitsArr: [...hitsArr],
+      });
+      this.socket.emit('hit', coords);
     } else {
       console.log('swing and a miss')
       currTurn.radar = radarPlacer(coords, currTurn.radar, false);
-      this.setState({ [currTurnObj] : currTurn });
-      setTimeout(() => {
-        this.setState({ turn: turnNum });
-        this.socket.emit('miss', coords);
-      }, 1000);
+      this.setState({ [currTurnObj]: currTurn });
+      this.setState({ turn: turnNum });
+      this.socket.emit('miss', coords);
     }
     if (currTurn.hits === 17) {
       setTimeout(() => {
@@ -139,7 +135,7 @@ class App extends React.Component {
 
   shipSelector(e) {
     e.preventDefault();
-    const { player1Setup,  player2Setup, playerID, turn1, turn2 } = this.state;
+    const { player1Setup, player2Setup, playerID, turn1, turn2 } = this.state;
     const currTurn = playerID === 1 ? turn1 : turn2;
     const currSetup = playerID === 1 ? player1Setup : player2Setup;
     if (currSetup[e.target.id] === true) {
@@ -174,10 +170,10 @@ class App extends React.Component {
     const currSetup = playerID === 1 ? player1Setup : player2Setup;
     const ready = checkPlayerReady(currSetup) ? true : false;
     if (ready) {
-     await this.setState({
+      await this.setState({
         [currPlayerReady]: true,
         stage: 'player ready'
-       });
+      });
     }
     this.socket.emit('deploy', this.state)
   }
@@ -207,7 +203,7 @@ class App extends React.Component {
         <KeyboardEventHandler
           handleKeys={['down', 'left', 'right', 'up']}
           onKeyEvent={(key) => this.handleDown(key)}
-          />
+        />
         <div className="heading-container">
           <h2 className="title">BattleShip: The Game... Onlinified</h2>
           <div className="board-labels">
