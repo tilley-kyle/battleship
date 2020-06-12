@@ -107,7 +107,7 @@ class App extends React.Component {
 
   shipSelector(e) {
     e.preventDefault();
-    const { player1Setup,  player2Setup, playerID, turn, turn1, turn2 } = this.state;
+    const { player1Setup,  player2Setup, playerID, turn1, turn2 } = this.state;
     const currTurn = playerID === 1 ? turn1 : turn2;
     const currSetup = playerID === 1 ? player1Setup : player2Setup;
     if (currSetup[e.target.id] === true) {
