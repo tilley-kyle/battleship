@@ -48,7 +48,7 @@ class App extends React.Component {
         player1: 0,
         player2: 0,
       },
-      hits: [],
+      hitsArr: [],
     };
     this.handleClickRadar = this.handleClickRadar.bind(this);
     this.shipSelector = this.shipSelector.bind(this);
@@ -92,7 +92,7 @@ class App extends React.Component {
   }
 
   handleClickRadar(coords) {
-    const { turn, turn1, turn2, playerID, hits } = this.state;
+    const { turn, turn1, turn2, playerID, hitsArr } = this.state;
     const currTurn = turn === 1 ? turn1 : turn2;
     const otherTurn = turn === 2 ? turn1 : turn2;
     const turnNum = turn === 1 ? 2 : 1;
@@ -102,7 +102,8 @@ class App extends React.Component {
       alert(`It's not your turn!`);
       return null;
     }
-    if (radarHit(coords, otherTurn.board, hits) === true) {
+    if (radarHit(coords, otherTurn.board, hitsArr) === true) return null;
+    if (radarHit(coords, otherTurn.board, hitsArr)) {
       console.log('here')
       currTurn.radar = radarPlacer(coords, currTurn.radar, true);
       currTurn.hits = currTurn.hits += 1;
@@ -110,7 +111,7 @@ class App extends React.Component {
       setTimeout(() => {
         this.setState({
           turn: turnNum,
-          hits: radarHit(coords, otherTurn.board, hits),
+          hitsArr: [...hitsArr, coords],
          });
         this.socket.emit('hit', coords);
       }, 1000);
