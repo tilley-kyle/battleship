@@ -91,21 +91,23 @@ class App extends React.Component {
     const currTurn = turn === 1 ? turn1 : turn2;
     const otherTurn = turn === 2 ? turn1 : turn2;
     const turnNum = turn === 1 ? 2 : 1;
+    const currTurnObj = playerID === 1 ? 'turn1' : 'turn2';
     let { scores } = this.state;
     if (playerID !== turn) {
       alert(`It's not your turn!`);
+      return null;
     }
     if (radarHit(coords, otherTurn.board)) {
       currTurn.radar = radarPlacer(coords, currTurn.radar, true);
       currTurn.hits = currTurn.hits += 1;
-      this.setState(currTurn);
+      this.setState({ [currTurnObj] : currTurn });
       setTimeout(() => {
         this.setState({ turn: turnNum });
         this.socket.emit('hit', coords);
       }, 1000);
     } else {
       currTurn.radar = radarPlacer(coords, currTurn.radar, false);
-      this.setState(currTurn);
+      this.setState({ [currTurnObj] : currTurn });
       setTimeout(() => {
         this.setState({ turn: turnNum });
         this.socket.emit('miss', coords);
