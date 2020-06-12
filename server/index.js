@@ -31,6 +31,14 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('battle', toBattle);
   });
 
+  socket.on('hit', (hitCoord) => {
+    socket.broadcast.emit('hit', hitCoord);
+  });
+
+  socket.on('miss', (missCoord) => {
+    socket.broadcast.emit('miss', missCoord)
+  })
+
   socket.on('disconnect', () => {
     playerCount -= 1;
     console.log('the user has left, dawg. COUNT: ', playerCount);

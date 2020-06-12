@@ -61,13 +61,22 @@ class App extends React.Component {
       await this.setState(turnX(state, this.state.playerID));
       await this.setState(playerXReady(state, this.state.playerID));
       if (this.state.player1Ready && this.state.player2Ready) {
-        console.log('heeyy')
         this.setState({ stage: 'battle' });
         this.socket.emit('battle', 'battle');
       }
     });
     this.socket.on('battle', (toBattle) => {
       this.setState({ stage: 'battle' });
+    });
+    this.socket.on('hit', (coords) => {
+      const newTurn = this.state.turn === 1 ? 2 : 1;
+      this.setState({ turn: newTurn });
+      console.log(coords);
+    });
+    this.socket.on('miss', (coords) => {
+      const newTurn = this.state.turn === 1 ? 2 : 1;
+      this.setState({ turn: newTurn });
+      console.log(coords);
     });
   }
 
@@ -78,23 +87,28 @@ class App extends React.Component {
   }
 
   handleClickRadar(coords) {
-    const { turn, turn1, turn2 } = this.state;
+    const { turn, turn1, turn2, playerID } = this.state;
     const currTurn = turn === 1 ? turn1 : turn2;
     const otherTurn = turn === 2 ? turn1 : turn2;
     const turnNum = turn === 1 ? 2 : 1;
     let { scores } = this.state;
+    if (playerID !== turn) {
+      alert(`It's not your turn!`);
+    }
     if (radarHit(coords, otherTurn.board)) {
       currTurn.radar = radarPlacer(coords, currTurn.radar, true);
       currTurn.hits = currTurn.hits += 1;
       this.setState(currTurn);
       setTimeout(() => {
-        this.setState({ turn: turnNum })
+        this.setState({ turn: turnNum });
+        this.socket.emit('hit', coords);
       }, 1000);
     } else {
       currTurn.radar = radarPlacer(coords, currTurn.radar, false);
       this.setState(currTurn);
       setTimeout(() => {
-        this.setState({ turn: turnNum })
+        this.setState({ turn: turnNum });
+        this.socket.emit('miss', coords);
       }, 1000);
     }
     if (currTurn.hits === 17) {
@@ -191,7 +205,7 @@ class App extends React.Component {
             ship={ship}
             direction={direction}
             stage={stage}
-            currTurn={currTurn}
+            currTurn={playerBoard}
             shipSelector={this.shipSelector}
             handleDeploy={this.handleDeploy}
             handleClick={this.handleClickRadar}
