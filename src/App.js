@@ -159,6 +159,11 @@ class App extends React.Component {
     this.socket.emit('test', this.state.turn);
   }
 
+  handleDown(e) {
+    e.preventDefault();
+    console.log('hi')
+  }
+
 
   render() {
     const { playerID, turn, stage, ship, direction, turn1, turn2 } = this.state;
@@ -166,7 +171,7 @@ class App extends React.Component {
     const playerBoard = playerID === 1 ? turn1 : turn2;
     const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
     return (
-      <div className="total-container">
+      <div onKeyDown={(e) => this.handleDown(e)} className="total-container">
         <div className="heading-container">
           <h2 className="title">BattleShip: The Game... Onlinified</h2>
           <div className="board-labels">
