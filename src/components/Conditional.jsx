@@ -1,5 +1,4 @@
 import React from 'react';
-// import Radar from './Radar';
 import Setup from './Setup';
 import RadarBoard from './RadarBoard';
 
@@ -16,6 +15,8 @@ const Conditional = ({ stage, ship, direction, shipSelector, handleDeploy, handl
         />
       </div>
     )
+  } else if (stage === 'end') {
+    return <button className="restart">Play Again?</button>
   } else {
     return (
     <div className="radar">

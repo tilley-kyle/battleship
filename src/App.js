@@ -197,7 +197,6 @@ class App extends React.Component {
 
   render() {
     const { playerID, turn, stage, ship, direction, turn1, turn2 } = this.state;
-    const currTurn = turn === 1 ? turn1 : turn2;
     const playerBoard = playerID === 1 ? turn1 : turn2;
     const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
     return (
