@@ -39,3 +39,7 @@
 > - - One of the players states will be changed to 'ready' when all of their pieces are out but
 > - -   on clicking the 'deploy the flee' button they aren't moved to 'player ready' which
 > - -   prevents the game moving to the 'battle' stage
+> - Potential solve: sometimes the functoin to mark if a ship was place would put a ' : true' into
+> - - the object tracking what ship has been place AS WELL as 'ship: ture'. This would result in a
+> - - tally of 6 ships, not 5 which is what the checkPlayerReady function was looking for, so change
+> - - === 5 to >= 5
