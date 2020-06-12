@@ -107,13 +107,13 @@ class App extends React.Component {
 
   shipSelector(e) {
     e.preventDefault();
-    const { player1Setup, turn, turn1, turn2 } = this.state;
-    const currTurn = turn === 1 ? turn1 : turn2;
-    const currSetup = player1Setup;
-    if (player1Setup[e.target.id] === true) {
+    const { player1Setup,  player2Setup, playerID, turn, turn1, turn2 } = this.state;
+    const currTurn = playerID === 1 ? turn1 : turn2;
+    const currSetup = playerID === 1 ? player1Setup : player2Setup;
+    if (currSetup[e.target.id] === true) {
       shipEraser(currTurn.board, e.target.id);
       currSetup[e.target.id] = false;
-      this.setState({ player1Setup: currSetup });
+      this.setState({ [currSetup]: currSetup });
     }
     this.setState({ ship: e.target.id });
   }
@@ -126,7 +126,7 @@ class App extends React.Component {
     if (directionalChecker(currTurn.board, ship, coords, direction)) {
       currSetup[ship] = true;
       currTurn.board = shipPlacer(currTurn.board, ship, coords, direction);
-      this.setState({ [currTurnObj]: currTurn });
+      this.setState({ [currTurnObj]: currTurn, ship: '' });
     } else {
       alert('invalid placement');
     }
