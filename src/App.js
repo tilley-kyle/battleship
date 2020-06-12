@@ -2,12 +2,13 @@ import React from 'react';
 import './stylesheet.css';
 import axios from 'axios';
 import socketIOClient from 'socket.io-client';
+import KeyboardEventHandler from 'react-keyboard-event-handler';
 
 import Board from './components/Board';
 import BoardHeader from './components/BoardHeader';
 import Conditional from './components/Conditional';
 
-import vertCheck from './helperFunctions/vertCheck';
+import directionalChecker from './helperFunctions/directionalChecker';
 import shipPlacer from './helperFunctions/shipPlacer';
 import shipEraser from './helperFunctions/shipEraser';
 import checkPlayerReady from './helperFunctions/checkPlayerReady';
@@ -118,13 +119,13 @@ class App extends React.Component {
   }
 
   handleClickSetup(coords) {
-    const { ship, player1Setup, player2Setup, turn1, turn2, playerID } = this.state;
+    const { ship, player1Setup, player2Setup, turn1, turn2, playerID, direction } = this.state;
     const currTurn = playerID === 1 ? turn1 : turn2;
     const currTurnObj = playerID === 1 ? 'turn1' : 'turn2';
     const currSetup = playerID === 1 ? player1Setup : player2Setup;
-    if (vertCheck(currTurn.board, ship, coords)) {
+    if (directionalChecker(currTurn.board, ship, coords, direction)) {
       currSetup[ship] = true;
-      currTurn.board = shipPlacer(currTurn.board, ship, coords);
+      currTurn.board = shipPlacer(currTurn.board, ship, coords, direction);
       this.setState({ [currTurnObj]: currTurn });
     } else {
       alert('invalid placement');
@@ -159,6 +160,10 @@ class App extends React.Component {
     this.socket.emit('test', this.state.turn);
   }
 
+  handleDown(key) {
+    this.setState({ direction: key });
+  }
+
 
   render() {
     const { playerID, turn, stage, ship, direction, turn1, turn2 } = this.state;
@@ -167,6 +172,10 @@ class App extends React.Component {
     const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
     return (
       <div className="total-container">
+        <KeyboardEventHandler
+          handleKeys={['down', 'left', 'right', 'up']}
+          onKeyEvent={(key) => this.handleDown(key)}
+          />
         <div className="heading-container">
           <h2 className="title">BattleShip: The Game... Onlinified</h2>
           <div className="board-labels">

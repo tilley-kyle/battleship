@@ -13,6 +13,7 @@
     "mongoose": "^5.9.18",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-keyboard-event-handler": "^1.5.4",
     "react-scripts": "3.4.1",
     "react-socket-io": "^0.2.5",
     "socket.io": "^2.3.0",
