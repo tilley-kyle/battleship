@@ -80,8 +80,8 @@ class App extends React.Component {
       console.log(coords);
     });
     this.socket.on('win', (winner) => {
-      this.setState({ stage: 'end' });
       alert(`Admiral ${winner} Has Defeated You!`);
+      this.setState({ stage: 'end' });
     });
   }
 
@@ -126,8 +126,8 @@ class App extends React.Component {
     if (currTurn.hits === 17) {
       setTimeout(() => {
         alert('You Are Victorious!');
+        this.setState({ stage: 'end' })
       }, 500);
-      this.setState({ stage: 'end' })
       this.socket.emit('win', playerID);
       axios.put('http://127.0.0.1:8153/result', scores);
     }
@@ -178,14 +178,16 @@ class App extends React.Component {
     this.socket.emit('deploy', this.state)
   }
 
-  switch(e) {
+  async switch(e) {
     e.preventDefault();
-    if (this.state.stage === "setup") {
-      this.setState({ stage: 'battle' });
-    } else {
-      this.setState({ stage: 'setup' });
-    }
-    this.socket.emit('test', this.state.turn);
+    const turn1 = this.state.turn1;
+    turn1.hits = 17;
+    await this.setState({turn1: turn1});
+    setTimeout(() => {
+      alert('You Are Victorious!');
+      this.setState({ stage: 'end' })
+    }, 500);
+    this.socket.emit('win', this.stateplayerID);
   }
 
   handleDown(key) {
