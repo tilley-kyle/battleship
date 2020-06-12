@@ -7,8 +7,6 @@ const bp = require('body-parser');
 
 const { getScores, putScores } = require('./controllers');
 
-// const port = 8153;
-// app.listen(port, () => console.log(`listening on ${port}`));
 app.use(cors());
 app.use(bp.json());
 app.use(express.static('build'));
@@ -38,15 +36,6 @@ io.on('connection', (socket) => {
     console.log('the user has left, dawg. COUNT: ', playerCount);
   });
 });
-
-const test = io.of('/test') //don't think this is being used
-test.on('connection', (socket) => {
-  socket.on('test', (test) => {
-    console.log('hi')
-  })
-})
-
-
 
 http.listen(8154, () => {
   console.log('http listening on 8154');
