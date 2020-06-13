@@ -21,6 +21,7 @@ if (stage === 'setup' || stage === 'ready' || stage === "player ready") {
     return (
     <div className="radar">
       <RadarBoard radar={currTurn.radar} handleClick={handleClick} />
+      <div className="scanner" />
     </div>
     );
   }

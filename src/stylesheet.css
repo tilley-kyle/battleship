@@ -3,9 +3,7 @@
 }
 
 .total-container {
-  /* background-image: url('ussiowa.jpg');
-  background-position: 60% 270%;
-  background-repeat: no-repeat; */
+  background-color: transparent;
   display: grid;
   grid-template-rows: 15vmin 80vmin;
   min-width: 850px;
@@ -87,6 +85,46 @@
   text-decoration: underline;
 }
 
+@keyframes scanner {
+  0% {
+      width: 1000%;
+      position: relative;
+      top: -1000%;
+    }
+  25% {
+    width: 1000%;
+    position: relative;
+    top: -750%;
+  }
+  50% {
+    width: 1000%;
+    position: relative;
+    top: -500%;
+  }
+  75% {
+    width: 1000%;
+    position: relative;
+    top: -250%;
+  }
+  100% {
+    width: 1000%;
+    position: relative;
+    top: 0%;
+  }
+}
+
+.scanner {
+  z-index: 100;
+  animation-name: scanner;
+  animation-duration: 7s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  max-width: 1000%;
+  min-width: 999%;
+  position: relative;
+  border-top: 10px solid #02F807;
+}
+
 .radar {
   display: grid;
   grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
@@ -96,7 +134,7 @@
   max-height: 100%;
   max-width: 100%;
   padding: 00px;
-  background-color: black;
+  background-color: transparent;
   border: 0px solid transparent;
   margin-left: 5px;
   margin-right: 5px;
@@ -130,6 +168,7 @@
 }
 
 .radar-tile {
+  background-color: black;
   display: flex;
   border: 0.5px solid #02F807;
   justify-content: center;
