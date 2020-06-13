@@ -6,15 +6,15 @@ const cors = require('cors');
 const bp = require('body-parser');
 const state = require('./originalState');
 
-// const { getScores, putScores } = require('./controllers');
+const { getScores, putScores } = require('./controllers');
 
 app.use(cors());
 app.use(bp.json());
 app.use(express.static('build'));
 
-// app.get('/start', getScores);
+app.get('/start', getScores);
 
-// app.put('/result', putScores);
+app.put('/result', putScores);
 
 let playerCount = 0;
 
