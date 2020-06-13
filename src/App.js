@@ -98,9 +98,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/start')
-      .then((res) => {
-      })
+    // axios.get('/start')
+    //   .then((res) => {
+    //   })
   }
 
   handleClickRadar(coords) {
@@ -138,7 +138,7 @@ class App extends React.Component {
         this.setState({ stage: 'end' })
       }, 500);
       this.socket.emit('win', playerID);
-      axios.put('http://127.0.0.1:8153/result', scores);
+      // axios.put('http://127.0.0.1:8153/result', scores);
     }
   }
 
