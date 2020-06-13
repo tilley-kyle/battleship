@@ -6,6 +6,7 @@ const shotsAgainstPlacer = (coords, shotsAgainst, bool) => {
   const y = yCoord(coords);
 
   shotsAgainst[y][x] = bool;
+  console.log(shotsAgainst[y][x])
   return shotsAgainst;
 };
 

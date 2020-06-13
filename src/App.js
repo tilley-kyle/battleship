@@ -31,9 +31,10 @@ class App extends React.Component {
       ship: '',
       direction: 'down',
       turn: 1,
+      lastShot: {},
       player1Setup: {},
       player2Setup: {},
-      shotsAgainst: [[], [], [], [], [], [], [], [], [], []],
+      shotsAgainst: {},
       turn1: {
         board: [[], [], [], [], [], [], [], [], [], []],
         radar: [[], [], [], [], [], [], [], [], [], []],
@@ -72,19 +73,25 @@ class App extends React.Component {
     this.socket.on('battle', (toBattle) => {
       this.setState({ stage: 'battle' });
     });
-    this.socket.on('hit', (coords) => {
+    this.socket.on('hit', async (coords) => {
       const newTurn = this.state.turn === 1 ? 2 : 1;
-      this.setState({
+      const obj = this.state.lastShot;
+      obj[coords] = true;
+      await this.setState({
         turn: newTurn,
-        shotsAgainst: shotsAgainstPlacer(coords, this.state.shotsAgainst, true),
+        shotsAgainst: obj,
        });
+      //  console.log(this.state.shotsAgainst)
     });
-    this.socket.on('miss', (coords) => {
+    this.socket.on('miss', async (coords) => {
       const newTurn = this.state.turn === 1 ? 2 : 1;
-      this.setState({
+      const obj = this.state.lastShot;
+      obj[coords] = false;
+      await this.setState({
         turn: newTurn,
-        shotsAgainst: shotsAgainstPlacer(coords, this.state.shotsAgainst, false),
+        shotsAgainst: obj,
        });
+      //  console.log(this.state.shotsAgainst)
     });
     this.socket.on('win', (winner) => {
       alert(`Admiral ${winner} has Defeated You!`);
@@ -211,7 +218,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { playerID, turn, stage, ship, direction, turn1, turn2, shotsAgainst } = this.state;
+    const { playerID, turn, stage, ship, direction, turn1, turn2, shotsAgainst, lastShot } = this.state;
     const playerBoard = playerID === 1 ? turn1 : turn2;
     const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
     return (
@@ -229,7 +236,12 @@ class App extends React.Component {
         </div>
         <div className="board-container">
           <div className="home-board">
-            <Board currTurn={playerBoard} shotsAgainst={shotsAgainst} stage={stage} handleClick={this.handleClickSetup} />
+            <Board
+              currTurn={playerBoard}
+              shotsAgainst={shotsAgainst}
+              stage={stage}
+              lastShot={lastShot}
+              handleClick={this.handleClickSetup} />
           </div>
           <Conditional
             ship={ship}
