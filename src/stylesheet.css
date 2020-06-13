@@ -88,6 +88,22 @@
   align-items: center;
 }
 
+.tile-hit {
+  background-image: url('./kaboom.jpg');
+  display: flex;
+  border: 0.5px solid black;
+  justify-content: center;
+  align-items: center;
+}
+
+.tile-miss {
+  background-image: url('./splash.jpg');
+  display: flex;
+  border: 0.5px solid black;
+  justify-content: center;
+  align-items: center;
+}
+
 .radar-tile {
   display: flex;
   border: 0.5px solid #02F807;

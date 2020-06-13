@@ -78,7 +78,6 @@ class App extends React.Component {
         turn: newTurn,
         shotsAgainst: shotsAgainstPlacer(coords, this.state.shotsAgainst, true),
        });
-      console.log(coords);
     });
     this.socket.on('miss', (coords) => {
       const newTurn = this.state.turn === 1 ? 2 : 1;
@@ -86,16 +85,13 @@ class App extends React.Component {
         turn: newTurn,
         shotsAgainst: shotsAgainstPlacer(coords, this.state.shotsAgainst, false),
        });
-      console.log(coords);
     });
     this.socket.on('win', (winner) => {
       alert(`Admiral ${winner} has Defeated You!`);
       this.setState({ stage: 'end' });
     });
     this.socket.on('restart', (state) => {
-      console.log(state);
       for (const prop in state.state) {
-        console.log(`${prop}: ${state.state[prop]}`)
         this.setState({ [prop]: state.state[prop] });
       }
     });
@@ -120,10 +116,8 @@ class App extends React.Component {
     }
     const radarHitVar = radarHit(coords, otherTurn.board, hitsArr);
     if (radarHitVar === true) {
-      console.log('hit already')
       return null;
     } else if (Array.isArray(radarHitVar)) {
-      console.log('not yet hit')
       currTurn.radar = radarPlacer(coords, currTurn.radar, true);
       currTurn.hits = currTurn.hits += 1;
       this.setState({ [currTurnObj]: currTurn });
@@ -133,7 +127,6 @@ class App extends React.Component {
       });
       this.socket.emit('hit', coords);
     } else {
-      console.log('swing and a miss')
       currTurn.radar = radarPlacer(coords, currTurn.radar, false);
       this.setState({ [currTurnObj]: currTurn });
       this.setState({ turn: turnNum });
