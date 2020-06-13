@@ -90,11 +90,19 @@ class App extends React.Component {
       alert(`Admiral ${winner} has Defeated You!`);
       this.setState({ stage: 'end' });
     });
-    this.socket.on('restart', (state) => {
+    this.socket.on('restart', async (state) => {
       for (const prop in state.state) {
-        this.setState({ [prop]: state.state[prop] });
+        await this.setState({ [prop]: state.state[prop] });
+      }
+      if (this.state.playerID === 0) {
+        this.socket.emit('player select');
       }
     });
+    this.socket.on('player select', (playerID) => {
+      if (playerID) {
+        this.setState({ playerID: playerID});
+      }
+    })
   }
 
   componentDidMount() {

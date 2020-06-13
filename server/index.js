@@ -17,6 +17,8 @@ app.use(express.static('build'));
 // app.put('/result', putScores);
 
 let playerCount = 0;
+let player1 = false;
+let player2 = false;
 
 io.on('connection', (socket) => {
   playerCount += 1;
@@ -41,6 +43,15 @@ io.on('connection', (socket) => {
     socket.emit('restart', state);
     socket.broadcast.emit('restart', state);
   });
+  socket.on('player select', () => {
+    if (!player1) {
+      socket.emit('player select', 1);
+    } else if (player1 && ! player2) {
+      socket.emit('player select', 2);
+    } else if (player1 && player2) {
+      socket.emit('player select', false);
+    }
+  })
   socket.on('disconnect', () => {
     playerCount -= 1;
     console.log('the user has left, dawg. COUNT: ', playerCount);
