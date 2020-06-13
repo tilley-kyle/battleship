@@ -23,7 +23,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      endpoint: 'http://localhost:8154/',
+      endpoint: process.env.PORT,
       playerID: 0,
       stage: 'setup',
       player1Ready: false,
