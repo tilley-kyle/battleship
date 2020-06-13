@@ -40,14 +40,18 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('win', winner)
   })
   socket.on('restart', () => {
+    player1 = false;
+    player2 = false;
     socket.emit('restart', state);
     socket.broadcast.emit('restart', state);
   });
   socket.on('player select', () => {
     if (!player1) {
       socket.emit('player select', 1);
+      player1 = true;
     } else if (player1 && ! player2) {
       socket.emit('player select', 2);
+      player2 = true;
     } else if (player1 && player2) {
       socket.emit('player select', false);
     }
