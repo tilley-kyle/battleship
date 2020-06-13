@@ -204,6 +204,11 @@ class App extends React.Component {
     this.socket.emit('restart');
   }
 
+  handleWinButton(e) {
+    e.preventDefault();
+    this.setState({ stage: 'end' });
+    this.socket.emit('win', 1);
+  }
 
   render() {
     const { playerID, turn, stage, ship, direction, turn1, turn2, shotsAgainst } = this.state;
@@ -237,6 +242,7 @@ class App extends React.Component {
             handleRestart={this.handleRestart}
           />
         </div>
+        <button onClick={(e) => this.handleWinButton(e)}>restart</button>
       </div>
     )
 
