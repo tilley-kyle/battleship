@@ -24,8 +24,10 @@ io.on('connection', (socket) => {
   playerCount += 1;
   console.log('a user connected, dawg. COUNT: ', playerCount);
   if (player1 === false) {
+    player1 = true;
     socket.emit('join', 1);
   } else if (player2 === false) {
+    player2 = true;
     socket.emit('join', 2);
   }
   socket.on('deploy', (state) => {
