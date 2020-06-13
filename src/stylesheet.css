@@ -3,10 +3,13 @@
 }
 
 .total-container {
- display: grid;
- grid-template-rows: 15vmin 80vmin;
- min-width: 850px;
- min-height: 500px;
+  background-image: url('ussiowa.jpg');
+  background-position: 60% 270%;
+  background-repeat: no-repeat;
+  display: grid;
+  grid-template-rows: 15vmin 80vmin;
+  min-width: 850px;
+  min-height: 500px;
 }
 
 .heading-container {
@@ -47,7 +50,9 @@
   min-width: 90%;
   max-height: 100%;
   max-width: 100%;
-  border: 10px solid white;
+  border: 00px solid transparent;
+  margin-right: 5px;
+  margin-left: 5px;
 }
 
 .setup {
@@ -78,7 +83,9 @@
   max-width: 100%;
   padding: 00px;
   background-color: black;
-  border: 10px solid white
+  border: 0px solid transparent;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .tile {
