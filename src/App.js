@@ -51,7 +51,7 @@ class App extends React.Component {
         player2: 0,
       },
       hitsArr: [],
-    };
+    };;
     this.handleClickRadar = this.handleClickRadar.bind(this);
     this.shipSelector = this.shipSelector.bind(this);
     this.handleClickSetup = this.handleClickSetup.bind(this);

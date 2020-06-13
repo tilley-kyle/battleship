@@ -1,4 +1,4 @@
-exports.state ={
+exports.state = {
   endpoint: process.env.PORT,
   playerID: 0,
   stage: 'setup',
