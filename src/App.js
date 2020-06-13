@@ -1,6 +1,6 @@
 import React from 'react';
 import './stylesheet.css';
-import axios from 'axios';
+// import axios from 'axios';
 import socketIOClient from 'socket.io-client';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 
@@ -16,7 +16,6 @@ import radarHit from './helperFunctions/radarHit';
 import radarPlacer from './helperFunctions/radarPlacer';
 import turnX from './helperFunctions/turnX';
 import playerXReady from './helperFunctions/playerXReady';
-import shotsAgainstPlacer from './helperFunctions/shotsAgainstPlacer';
 
 
 class App extends React.Component {
@@ -124,7 +123,6 @@ class App extends React.Component {
     const otherTurn = turn === 2 ? turn1 : turn2;
     const turnNum = turn === 1 ? 2 : 1;
     const currTurnObj = playerID === 1 ? 'turn1' : 'turn2';
-    let { scores } = this.state;
     if (playerID !== turn) {
       alert(`It's not your turn!`);
       return null;

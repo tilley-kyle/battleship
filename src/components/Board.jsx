@@ -1,7 +1,7 @@
 import React from 'react';
 import Tile from './Tile.jsx';
 
-const Board = ({ handleClick, currTurn, lastShot, shotsAgainst }) => {
+const Board = ({ handleClick, currTurn, shotsAgainst }) => {
     const counter = [];
     for (let i = 0; i < 100; i += 1) {
       counter.push(i);
@@ -11,7 +11,6 @@ const Board = ({ handleClick, currTurn, lastShot, shotsAgainst }) => {
                              key={cur}
                              place={cur}
                              board={currTurn.board}
-                             lastShot={lastShot}
                              shotsAgainst={shotsAgainst}
                              handleClick={handleClick}
                           />)
