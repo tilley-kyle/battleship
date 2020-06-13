@@ -21,6 +21,7 @@
     "socket.io-client": "^2.3.0"
   },
   "scripts": {
+    "react": "react-scripts start",
     "start": "node server/index.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
