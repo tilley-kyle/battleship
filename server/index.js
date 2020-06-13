@@ -54,6 +54,6 @@ io.on('connection', (socket) => {
   });
 });
 
-http.listen((process.env.port || 8154), () => {
+http.listen((process.env.PORT || 8154), () => {
   console.log('http listening on 8154');
 });
