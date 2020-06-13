@@ -9,6 +9,7 @@ const Setup = ({ ship, direction, shipSelector, handleDeploy, stage }) => {
     Submarine: 3,
     PatrolBoat: 2,
   }
+  const shipText = ship ? `The ${ship} is ${blocks[ship]} blocks and will point ${direction}` : 'Select a ship';
   const arrow = `arrow ${direction}`
   return (
     <div className="setup">
@@ -17,10 +18,7 @@ const Setup = ({ ship, direction, shipSelector, handleDeploy, stage }) => {
       <button className="ship-button" id="Destroyer" onClick={(e) => shipSelector(e)} >Place your Destroyer</button>
       <button className="ship-button" id="Submarine" onClick={(e) => shipSelector(e)} >Place your Submarine</button>
       <button className="ship-button" id="PatrolBoat" onClick={(e) => shipSelector(e)} >Place your Patrol Boat</button>
-      <div className="description">
-        The {ship} is {blocks[ship]} blocks<br/>
-        and will point {direction}
-      </div>
+      <div className="description">{shipText}</div>
       <div className={arrow} />
       <StartButton stage={stage} handleDeploy={handleDeploy} />
     </div>
