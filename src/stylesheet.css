@@ -59,7 +59,7 @@
 }
 
 .setup {
-  min-height: 95%;
+  min-height: 96%;
   min-width: 87%;
   max-width: 97%;
   display: flex;
@@ -80,7 +80,7 @@
 
 .description {
   position: sticky;
-  top: 30%;
+  top: 40%;
   text-align: center;
   color: #01CC01;
   font-weight: bolder;
