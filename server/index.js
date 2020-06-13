@@ -23,11 +23,17 @@ let player2 = false;
 io.on('connection', (socket) => {
   playerCount += 1;
   console.log('a user connected, dawg. COUNT: ', playerCount);
-  socket.emit('join', playerCount)
+  if (player1 === false) {
+    socket.emit('join', 1);
+  } else if (player2 === false) {
+    socket.emit('join', 2);
+  }
   socket.on('deploy', (state) => {
     socket.broadcast.emit('deploy', state);
   });
   socket.on('battle', (toBattle) => {
+    player1 = false;
+    player2 = false;
     socket.broadcast.emit('battle', toBattle);
   });
   socket.on('hit', (hitCoord) => {
@@ -59,6 +65,10 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     playerCount -= 1;
     console.log('the user has left, dawg. COUNT: ', playerCount);
+    if (playerCount === 0) {
+      player1 = false;
+      player2 = false;
+    }
   });
 });
 
