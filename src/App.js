@@ -16,6 +16,7 @@ import radarHit from './helperFunctions/radarHit';
 import radarPlacer from './helperFunctions/radarPlacer';
 import turnX from './helperFunctions/turnX';
 import playerXReady from './helperFunctions/playerXReady';
+import shotsAgainstPlacer from './helperFunctions/shotsAgainstPlacer';
 
 
 class App extends React.Component {
@@ -32,6 +33,7 @@ class App extends React.Component {
       turn: 1,
       player1Setup: {},
       player2Setup: {},
+      shotsAgainst: [[], [], [], [], [], [], [], [], [], []],
       turn1: {
         board: [[], [], [], [], [], [], [], [], [], []],
         radar: [[], [], [], [], [], [], [], [], [], []],
@@ -72,16 +74,22 @@ class App extends React.Component {
     });
     this.socket.on('hit', (coords) => {
       const newTurn = this.state.turn === 1 ? 2 : 1;
-      this.setState({ turn: newTurn });
+      this.setState({
+        turn: newTurn,
+        shotsAgainst: shotsAgainstPlacer(coords, this.state.shotsAgainst, true),
+       });
       console.log(coords);
     });
     this.socket.on('miss', (coords) => {
       const newTurn = this.state.turn === 1 ? 2 : 1;
-      this.setState({ turn: newTurn });
+      this.setState({
+        turn: newTurn,
+        shotsAgainst: shotsAgainstPlacer(coords, this.state.shotsAgainst, false),
+       });
       console.log(coords);
     });
     this.socket.on('win', (winner) => {
-      alert(`Admiral ${winner} Has Defeated You!`);
+      alert(`Admiral ${winner} has Defeated You!`);
       this.setState({ stage: 'end' });
     });
     this.socket.on('restart', (state) => {
@@ -209,7 +217,7 @@ class App extends React.Component {
 
 
   render() {
-    const { playerID, turn, stage, ship, direction, turn1, turn2 } = this.state;
+    const { playerID, turn, stage, ship, direction, turn1, turn2, shotsAgainst } = this.state;
     const playerBoard = playerID === 1 ? turn1 : turn2;
     const headerRight = stage !== 'battle' ? 'Deployment Console' : 'Radar';
     return (
@@ -227,7 +235,7 @@ class App extends React.Component {
         </div>
         <div className="board-container">
           <div className="home-board">
-            <Board currTurn={playerBoard} stage={stage} handleClick={this.handleClickSetup} />
+            <Board currTurn={playerBoard} shotsAgainst={shotsAgainst} stage={stage} handleClick={this.handleClickSetup} />
           </div>
           <Conditional
             ship={ship}
