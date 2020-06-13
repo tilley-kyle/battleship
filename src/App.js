@@ -80,7 +80,6 @@ class App extends React.Component {
         turn: newTurn,
         shotsAgainst: obj,
        });
-      //  console.log(this.state.shotsAgainst)
     });
     this.socket.on('miss', async (coords) => {
       const newTurn = this.state.turn === 1 ? 2 : 1;
@@ -90,7 +89,6 @@ class App extends React.Component {
         turn: newTurn,
         shotsAgainst: obj,
        });
-      //  console.log(this.state.shotsAgainst)
     });
     this.socket.on('win', (winner) => {
       alert(`Admiral ${winner} has Defeated You!`);

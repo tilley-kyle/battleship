@@ -90,6 +90,8 @@
 
 .tile-hit {
   background-image: url('./kaboom.jpg');
+  background-position: center;
+  background-size: 170%;
   display: flex;
   border: 0.5px solid black;
   justify-content: center;
@@ -98,6 +100,8 @@
 
 .tile-miss {
   background-image: url('./splash.jpg');
+  background-position: center;
+  background-size: 170%;
   display: flex;
   border: 0.5px solid black;
   justify-content: center;
