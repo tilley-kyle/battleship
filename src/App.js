@@ -187,18 +187,6 @@ class App extends React.Component {
     this.socket.emit('deploy', this.state)
   }
 
-  async switch(e) {
-    e.preventDefault();
-    const turn1 = this.state.turn1;
-    turn1.hits = 17;
-    await this.setState({turn1: turn1});
-    setTimeout(() => {
-      alert('You Are Victorious!');
-      this.setState({ stage: 'end' })
-    }, 500);
-    this.socket.emit('win', this.stateplayerID);
-  }
-
   handleDown(key) {
     this.setState({ direction: key });
   }
@@ -241,7 +229,6 @@ class App extends React.Component {
             handleRestart={this.handleRestart}
           />
         </div>
-        <button className="temp" onClick={(e) => this.switch(e)}>switch to radar</button>
       </div>
     )
 

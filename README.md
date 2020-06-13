@@ -31,7 +31,7 @@
 > ## Know Bugs
 > - ~~Hits can be counted multiple times~~
 > - - ~~A user can keep clicking on the same hit location and rack up their score to win~~
-> - on game stage set to 'over' the radar reverts to the deployment console
+> - ~~on game stage set to 'over' the radar reverts to the deployment console~~
 > - - Should stay on the radar screen
 > - - Eventually should have a pop-up to play again and reset state
 > - ~~Random problem on setup that one of the players won't be able to be sent to 'player ready'~~
