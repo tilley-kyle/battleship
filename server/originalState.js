@@ -1,5 +1,5 @@
-exports.state = {
-  endpoint: 'http://localhost:8154/',
+exports.state ={
+  endpoint: process.env.PORT,
   playerID: 0,
   stage: 'setup',
   player1Ready: false,
@@ -7,8 +7,10 @@ exports.state = {
   ship: '',
   direction: 'down',
   turn: 1,
+  lastShot: {},
   player1Setup: {},
   player2Setup: {},
+  shotsAgainst: {},
   turn1: {
     board: [[], [], [], [], [], [], [], [], [], []],
     radar: [[], [], [], [], [], [], [], [], [], []],
