@@ -250,7 +250,7 @@ class App extends React.Component {
             handleRestart={this.handleRestart}
           />
         </div>
-        <button onClick={(e) => this.handleWinButton(e)}>restart</button>
+        {/* <button onClick={(e) => this.handleWinButton(e)}>restart</button> */}
       </div>
     )
 
