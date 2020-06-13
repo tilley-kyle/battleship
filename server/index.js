@@ -39,6 +39,7 @@ io.on('connection', (socket) => {
   })
   socket.on('restart', () => {
     socket.emit('restart', state);
+    socket.broadcast.emit('restart', state);
   });
   socket.on('disconnect', () => {
     playerCount -= 1;
