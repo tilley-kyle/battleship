@@ -3,7 +3,7 @@ import Setup from './Setup';
 import RadarBoard from './RadarBoard';
 
 const Conditional = ({ stage, ship, direction, shipSelector, handleDeploy, handleClick, currTurn }) => {
-  if (stage !== 'battle') {
+  if (stage === 'setup' || stage === 'ready' || stage === "player ready") {
     return (
       <div>
         <Setup
