@@ -16,6 +16,7 @@
   background-color: darkgray;
   border: 8px groove gray;
   border-radius: 2px;
+  z-index: 6;
 }
 
 .title {
@@ -114,14 +115,16 @@
 }
 
 .scanner {
-  z-index: 100;
+  z-index: 5;
   animation-name: scanner;
-  animation-duration: 7s;
+  animation-duration: 3s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  opacity: 0.7;
   max-width: 1000%;
   min-width: 999%;
-  position: relative;
+  position: absolute;
+  top: 150px;
   border-top: 10px solid #02F807;
 }
 
@@ -138,6 +141,7 @@
   border: 0px solid transparent;
   margin-left: 5px;
   margin-right: 5px;
+  margin-bottom: white;
 }
 
 .tile {
