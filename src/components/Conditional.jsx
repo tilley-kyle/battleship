@@ -2,8 +2,8 @@ import React from 'react';
 import Setup from './Setup';
 import RadarBoard from './RadarBoard';
 
-const Conditional = ({ stage, ship, direction, shipSelector, handleDeploy, handleClick, currTurn }) => {
-  if (stage === 'setup' || stage === 'ready' || stage === "player ready") {
+const Conditional = ({ stage, currTurn, ship, direction, shipSelector, handleDeploy, handleClick, handleRestart }) => {
+if (stage === 'setup' || stage === 'ready' || stage === "player ready") {
     return (
       <div>
         <Setup
@@ -16,7 +16,7 @@ const Conditional = ({ stage, ship, direction, shipSelector, handleDeploy, handl
       </div>
     )
   } else if (stage === 'end') {
-    return <button className="restart">Play Again?</button>
+    return <button className="restart" onClick={(e) => handleRestart(e)}>Play Again?</button>
   } else {
     return (
     <div className="radar">

@@ -54,6 +54,7 @@ class App extends React.Component {
     this.shipSelector = this.shipSelector.bind(this);
     this.handleClickSetup = this.handleClickSetup.bind(this);
     this.handleDeploy = this.handleDeploy.bind(this);
+    this.handleRestart = this.handleRestart.bind(this);
     this.socket = socketIOClient(this.state.endpoint);
     this.socket.on('join', (resNum) => {
       this.setState({ playerID: resNum });
@@ -82,6 +83,13 @@ class App extends React.Component {
     this.socket.on('win', (winner) => {
       alert(`Admiral ${winner} Has Defeated You!`);
       this.setState({ stage: 'end' });
+    });
+    this.socket.on('restart', (state) => {
+      console.log(state);
+      for (const prop in state.state) {
+        console.log(`${prop}: ${state.state[prop]}`)
+        this.setState({ [prop]: state.state[prop] });
+      }
     });
   }
 
@@ -194,6 +202,11 @@ class App extends React.Component {
     this.setState({ direction: key });
   }
 
+  handleRestart(e) {
+    e.preventDefault();
+    this.socket.emit('restart');
+  }
+
 
   render() {
     const { playerID, turn, stage, ship, direction, turn1, turn2 } = this.state;
@@ -224,6 +237,7 @@ class App extends React.Component {
             shipSelector={this.shipSelector}
             handleDeploy={this.handleDeploy}
             handleClick={this.handleClickRadar}
+            handleRestart={this.handleRestart}
           />
         </div>
         <button className="temp" onClick={(e) => this.switch(e)}>switch to radar</button>

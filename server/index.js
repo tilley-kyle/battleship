@@ -4,6 +4,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const cors = require('cors');
 const bp = require('body-parser');
+const state = require('./originalState');
 
 const { getScores, putScores } = require('./controllers');
 
@@ -42,6 +43,10 @@ io.on('connection', (socket) => {
   socket.on('win', (winner) => {
     socket.broadcast.emit('win', winner)
   })
+
+  socket.on('restart', () => {
+    socket.emit('restart', state);
+  });
 
   socket.on('disconnect', () => {
     playerCount -= 1;
