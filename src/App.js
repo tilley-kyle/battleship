@@ -24,7 +24,7 @@ class App extends React.Component {
     this.state = {
       endpoint: process.env.PORT,
       playerID: 0,
-      stage: 'setup',
+      stage: 'battle',
       player1Ready: false,
       player2Ready: false,
       ship: '',

@@ -91,7 +91,7 @@
   0% {
       width: 1000%;
       position: relative;
-      top: -5500%;
+      top: -7200%;
     }
   100% {
     width: 1000%;
@@ -103,7 +103,7 @@
 .scanner {
   z-index: 5;
   animation-name: scanner;
-  animation-duration: 6s;
+  animation-duration: 4s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-direction: alternate;
@@ -119,10 +119,10 @@
   display: grid;
   grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
   grid-template-rows: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
-  min-height: 90%;
-  min-width: 90%;
+  min-height: 96%;
+  min-width: 87%;
   max-height: 100%;
-  max-width: 100%;
+  max-width: 97%;
   padding: 00px;
   background-color: transparent;
   margin-right: 5px;
@@ -138,7 +138,7 @@
 }
 
 .tile-hit {
-  background-image: url('./kaboom.jpg');
+  background-image: url('./kaboom png.png');
   background-position: center;
   background-size: 170%;
   display: flex;
@@ -148,7 +148,7 @@
 }
 
 .tile-miss {
-  background-image: url('./splash.jpg');
+  background-image: url('./splash\ png.png');
   background-position: center;
   background-size: 170%;
   display: flex;
