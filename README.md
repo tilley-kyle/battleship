@@ -1,6 +1,6 @@
 # Operation BattleShip
 
-![](main page.PNG)
+![main page](main page.PNG)
 
  ## BattleShip: The Board Game... Onlinified
 
