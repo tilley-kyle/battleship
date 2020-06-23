@@ -29,11 +29,3 @@
 > Are you ready to dominate the seas? Are you ready to command the full power of hundreds of thousands of tons of diplaced
 >             water that is your fleet? Well log in Admiral, BattleShip: The Board Game... Onlinified awaits!
 >
-> ## Know Bugs and things to add
-> Random click caused game to move to 'end' stage.
-> - Haven't been able to reproduce it
->
-> Animation that tracks across the radar screen to mimic a radar ping
->
-> Different 'end' stage screen backgroungs
-> - An image for the winner and loser on the background
