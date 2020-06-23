@@ -224,7 +224,7 @@ class App extends React.Component {
           onKeyEvent={(key) => this.handleDown(key)}
         />
         <div className="heading-container">
-          <h2 className="title">BattleShip: The Game... Onlinified</h2>
+          <h2 className="title">BattleShip: The Board Game... Onlinified</h2>
           <div className="board-labels">
             <BoardHeader stage={stage} turn={turn} playerID={playerID} />
             <div className="label-title">{headerRight}</div>
